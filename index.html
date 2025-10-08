@@ -13,22 +13,31 @@
     --shadow:0 26px 70px rgba(0,0,0,.45);
     --shine:radial-gradient(900px 600px at 110% -10%, rgba(74,163,255,.22), transparent 60%);
   }
+  @media (prefers-color-scheme: light){
+    :root{
+      --ink:#0f1424; --mut:rgba(15,20,36,.7);
+      --bg1:#f7f9ff; --bg2:#eaf1ff; --brand:#276ef1;
+      --shadow:0 22px 48px rgba(0,0,0,.16);
+      --shine:radial-gradient(900px 600px at 110% -10%, rgba(39,110,241,.10), transparent 60%);
+    }
+  }
+
   html,body{margin:0}
   body{
     font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans";
     color:var(--ink);
     background:
-      radial-gradient(1200px 800px at 12% -10%, rgba(59,130,246,.18), transparent 70%),
-      radial-gradient(1000px 700px at 88% 110%, rgba(59,130,246,.12), transparent 70%),
+      radial-gradient(1200px 800px at 12% -10%, color-mix(in oklab, var(--brand) 18%, transparent), transparent 70%),
+      radial-gradient(1000px 700px at 88% 110%, color-mix(in oklab, var(--brand) 12%, transparent), transparent 70%),
       linear-gradient(180deg,var(--bg1),var(--bg2));
     padding:clamp(28px,4vw,48px) 0 64px;
     overflow-x:hidden;
   }
-  /* soft ambient beam */
+  /* ambient beam */
   body::before{
     content:"";position:fixed;inset:-20% -20% -20% -20%;
-    background:radial-gradient(50% 40% at 30% -10%, rgba(74,163,255,.10), transparent 70%);
-    filter:blur(20px);mix-blend-mode:screen;pointer-events:none;
+    background:radial-gradient(50% 40% at 30% -10%, color-mix(in oklab, var(--brand) 12%, transparent), transparent 70%);
+    filter:blur(22px);mix-blend-mode:screen;pointer-events:none;
     animation:drift 18s linear infinite;
   }
   @keyframes drift{0%{transform:translate3d(-2%,0,0)}50%{transform:translate3d(2%,1%,0)}100%{transform:translate3d(-2%,0,0)}}
@@ -38,7 +47,7 @@
   .sub{margin:0 auto 20px;color:var(--mut);max-width:70ch}
 
   /* top controls (arrows + pills) */
-  .ctrl{display:flex;justify-content:center;align-items:center;gap:14px;margin:16px 0 10px;flex-wrap:wrap}
+  .ctrl{display:flex;justify-content:center;align-items:center;gap:14px;margin:16px 0 8px;flex-wrap:wrap}
   .arrow{
     width:42px;height:42px;border-radius:999px;display:grid;place-items:center;
     background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);
@@ -62,18 +71,24 @@
     box-shadow:0 8px 22px rgba(59,130,246,.28) inset,0 8px 24px rgba(0,0,0,.25)
   }
 
-  /* centered Pause/Play row */
-  .ctrl-bottom{display:flex;justify-content:center;margin:6px 0 12px}
+  /* centered Pause/Play row + hint */
+  .ctrl-bottom{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;margin:4px 0 10px}
   .pause{
     padding:10px 14px;border-radius:14px;font-weight:800;cursor:pointer;
     background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);color:var(--ink);
     transition:transform .08s,background .2s,border-color .2s;
   }
   .pause:hover{transform:translateY(-2px);background:rgba(255,255,255,.18)}
+  .hint{font-size:.82rem;color:var(--mut)}
 
   /* progress */
-  .timeline{height:3px;width:min(640px,80vw);margin:10px auto 16px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
+  .timeline{height:3px;width:min(640px,80vw);margin:6px auto 16px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
   .bar{height:100%;width:0%;background:linear-gradient(90deg,rgba(74,163,255,1),rgba(34,197,94,1));transition:width .2s linear}
+  .timeline.pulsing .bar{animation:pulse 1.6s ease-in-out infinite}
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 rgba(74,163,255,0)}
+    50%{box-shadow:0 0 18px rgba(74,163,255,.45)}
+  }
 
   /* cards */
   .stage{display:block;width:100%;margin:0 auto;min-height:min(68vh,700px)}
@@ -85,8 +100,14 @@
     box-shadow:var(--shadow);opacity:0;
   }
   .card::before{content:"";position:absolute;inset:0;background:var(--shine);opacity:.8;pointer-events:none}
-  .card.show{display:block;animation:fadeUp .42s cubic-bezier(.2,.7,0,1) both}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .card.show{display:block;animation:fadeIn .42s cubic-bezier(.2,.7,0,1) both}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+  /* exit slides */
+  .card.leave-left{display:block;animation:leaveLeft .38s cubic-bezier(.2,.7,0,1) both}
+  .card.leave-right{display:block;animation:leaveRight .38s cubic-bezier(.2,.7,0,1) both}
+  @keyframes leaveLeft{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-28px)}}
+  @keyframes leaveRight{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(28px)}}
 
   .grid{display:grid;gap:16px;grid-template-columns:1.2fr .8fr}
   @media(max-width:900px){.grid{grid-template-columns:1fr}}
@@ -130,12 +151,13 @@
       <button class="arrow" id="next" type="button" aria-label="Next">›</button>
     </div>
 
-    <!-- Centered Pause/Play -->
+    <!-- Pause/Play + hint -->
     <div class="ctrl-bottom">
       <button class="pause" id="pauseBtn" type="button" aria-pressed="false">Pause</button>
+      <div class="hint" aria-hidden="true">Tip: use ← / → to navigate, Space to Pause/Play</div>
     </div>
 
-    <div class="timeline" aria-hidden="true"><div class="bar" id="bar"></div></div>
+    <div class="timeline" id="timeline" aria-hidden="true"><div class="bar" id="bar"></div></div>
 
     <div class="stage" id="stage">
       <!-- Systemize -->
@@ -246,11 +268,12 @@
   const prev=document.getElementById('prev');
   const next=document.getElementById('next');
   const bar=document.getElementById('bar');
+  const timeline=document.getElementById('timeline');
   const pauseBtn=document.getElementById('pauseBtn');
 
   /* SETTINGS */
   const AUTOPLAY=true;
-  const DURATION=12000; // 12s per pillar
+  const DURATION=14000; // 14s per pillar
 
   let i=0, lock=false;
   let paused=false;
@@ -267,15 +290,24 @@
 
   function show(idx){
     if(lock) return;
-    idx=(idx+cards.length)%cards.length;
-    if(idx===i) return;
+    const target=(idx+cards.length)%cards.length;
+    if(target===i) return;
     lock=true;
 
+    // exit slide for current
+    const dir = target>i ? 'left' : 'right';
     cards[i].classList.remove('show');
-    cards[idx].classList.add('show');
-    i=idx; setPills(i);
+    cards[i].classList.add(`leave-${dir}`);
 
-    // when slide changes, restart cycle unless paused
+    // enter next
+    cards[target].classList.add('show');
+
+    // cleanup leaving class
+    setTimeout(()=>{ cards.forEach(c=>c.classList.remove('leave-left','leave-right')); }, 420);
+
+    i=target; setPills(i);
+
+    // restart progress unless paused
     remaining=DURATION;
     if(AUTOPLAY && !paused) startCycle(DURATION);
 
@@ -290,25 +322,25 @@
   prev.addEventListener('click',()=>go(i-1),{passive:true});
   next.addEventListener('click',()=>go(i+1),{passive:true});
   document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowLeft') go(i-1);
-    if(e.key==='ArrowRight') go(i+1);
+    if(e.key==='ArrowLeft'){ e.preventDefault(); go(i-1); }
+    if(e.key==='ArrowRight'){ e.preventDefault(); go(i+1); }
+    if(e.code==='Space'){ e.preventDefault(); paused ? resumeAutoplay() : pauseAutoplay(); }
   });
 
-  pauseBtn.addEventListener('click',()=>{
-    if(!paused) pauseAutoplay(); else resumeAutoplay();
-  });
+  pauseBtn.addEventListener('click',()=>{ paused ? resumeAutoplay() : pauseAutoplay(); });
 
   function pauseAutoplay(){
     if(paused) return;
     paused=true;
+    timeline.classList.remove('pulsing');
     if(advanceTimer){ clearTimeout(advanceTimer); advanceTimer=null; }
     const elapsed=Date.now()-startTime;
     remaining=Math.max(0, remaining - elapsed);
 
-    // freeze bar at current percentage
-    const pct = Math.min(100, (elapsed / (elapsed+remaining)) * 100);
+    // freeze bar at current percent
+    const pct=Math.min(100,(elapsed/(elapsed+remaining))*100);
     bar.style.transition='none';
-    bar.style.width=pct + '%';
+    bar.style.width=pct+'%';
 
     pauseBtn.textContent='Play';
     pauseBtn.setAttribute('aria-pressed','true');
@@ -317,7 +349,7 @@
   function resumeAutoplay(){
     if(!paused) return;
     paused=false;
-    startCycle(Math.max(300, remaining)); // never less than 300ms
+    startCycle(Math.max(300, remaining));
     pauseBtn.textContent='Pause';
     pauseBtn.setAttribute('aria-pressed','false');
   }
@@ -326,7 +358,7 @@
     if(!AUTOPLAY) return;
     if(advanceTimer) clearTimeout(advanceTimer);
 
-    // animate bar from 0 (or current if resuming) to 100% over ms
+    // progress bar animation
     requestAnimationFrame(()=>{
       bar.style.transition='none';
       if(ms===DURATION) bar.style.width='0%';
@@ -338,6 +370,7 @@
 
     startTime=Date.now();
     remaining=ms;
+    timeline.classList.add('pulsing');
     advanceTimer=setTimeout(()=>{ show(i+1); }, ms);
   }
 
