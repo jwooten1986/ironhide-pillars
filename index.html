@@ -249,6 +249,7 @@
   const next  = document.getElementById('next');
   const bar   = document.getElementById('bar');
   const wrap  = document.getElementById('ihwrap');
+  const STOP_AFTER_INTERACT = true;
 
   let i = 0, lock = false, timer = null, progressTimer = null;
   const AUTOPLAY = true;
@@ -279,12 +280,10 @@
     setTimeout(()=>{ lock=false; }, 440);
   }
 
-  function go(n, user=false){ show(n, user); }
-
-  pills.forEach(p => p.addEventListener('click', () => go(Number(p.dataset.idx), true), {passive:true}));
-  prev.addEventListener('click', () => go(i-1, true), {passive:true});
-  next.addEventListener('click', () => go(i+1, true), {passive:true});
-  document.addEventListener('keydown', e => { if(e.key==='ArrowLeft') go(i-1, true); if(e.key==='ArrowRight') go(i+1, true); });
+  function go(n, user=false){
+  show(n, user);
+  if (user && STOP_AFTER_INTERACT) stopAutoplay();
+}
 
   // Hover pause
   ['mouseenter','focusin','touchstart'].forEach(evt => wrap.addEventListener(evt, stopAutoplay, {passive:true}));
