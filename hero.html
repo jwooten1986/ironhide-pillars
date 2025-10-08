@@ -1,185 +1,218 @@
-<!-- ======================= Ironhide • HERO (no big CTA) ======================= -->
-<style>
-  :root{
-    --ink:#eaf1ff; --mut:rgba(234,241,255,.82);
-    --bg1:#0f1424; --bg2:#151c30; --brand:#4aa3ff; --lime:#22c55e;
-    --card:#121728; --br:18px;
-  }
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ironhide • Hero</title>
 
-  .ih-hero{
-    position:relative; isolation:isolate; overflow:hidden;
-    background:
-      radial-gradient(1200px 800px at 12% -10%, rgba(59,130,246,.18), transparent 70%),
-      radial-gradient(1000px 700px at 88% 110%, rgba(59,130,246,.12), transparent 70%),
-      linear-gradient(180deg,var(--bg1),var(--bg2));
-    color:var(--ink);
-  }
+  <style>
+    /* ——— global hygiene ——— */
+    html, body { margin:0; padding:0; }
+    body { background: transparent; color: #eaf1ff; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+    img, video, canvas, svg { max-width: 100%; height: auto; }
 
-  /* tasteful white lift bottom-right */
-  .ih-hero::after{
-    content:"";
-    position:absolute; right:-8%; bottom:-12%;
-    width:58vw; height:58vw; max-width:900px; max-height:900px;
-    background:
-      radial-gradient(55% 55% at 30% 30%, rgba(255,255,255,.14), transparent 60%),
-      radial-gradient(40% 40% at 72% 76%, rgba(255,255,255,.10), transparent 60%);
-    filter:blur(22px); mix-blend-mode:screen; pointer-events:none;
-  }
+    :root{
+      --ink:#eaf1ff; --mut:rgba(234,241,255,.82);
+      --bg1:#0f1424; --bg2:#151c30; --brand:#4aa3ff; --lime:#22c55e;
+      --card:#121728; --br:18px;
+    }
 
-  .ih-hero__wrap{ max-width:1180px; margin:0 auto; padding: clamp(28px,5vw,64px) clamp(16px,3vw,32px) }
-  .ih-hero__grid{ display:grid; gap:28px; grid-template-columns:1.1fr .9fr; align-items:center }
-  @media (max-width:980px){ .ih-hero__grid{ grid-template-columns:1fr } }
+    .ih-hero{
+      position:relative; isolation:isolate; overflow:hidden;
+      background:
+        radial-gradient(1200px 800px at 12% -10%, rgba(59,130,246,.18), transparent 70%),
+        radial-gradient(1000px 700px at 88% 110%, rgba(59,130,246,.12), transparent 70%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+      color:var(--ink);
+    }
 
-  .ih-eyebrow{
-    display:inline-block; padding:6px 12px; border-radius:999px;
-    background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.22);
-    font-weight:800; font-size:.9rem; letter-spacing:.02em; margin-bottom:8px;
-  }
-  .ih-hero h1{ margin:0 0 8px; font-weight:900; letter-spacing:-.02em; font-size: clamp(34px, 7.2vw, 84px); line-height:1.02 }
-  .ih-hero .sub{ margin:0 0 16px; color:var(--mut); font-size: clamp(16px,1.4vw,20px); max-width:56ch }
+    /* tasteful white lift bottom-right */
+    .ih-hero::after{
+      content:"";
+      position:absolute; right:-8%; bottom:-12%;
+      width:58vw; height:58vw; max-width:900px; max-height:900px;
+      background:
+        radial-gradient(55% 55% at 30% 30%, rgba(255,255,255,.14), transparent 60%),
+        radial-gradient(40% 40% at 72% 76%, rgba(255,255,255,.10), transparent 60%);
+      filter:blur(22px); mix-blend-mode:screen; pointer-events:none;
+    }
 
-  /* Service tiles */
-  .ih-tiles{ display:flex; gap:12px; flex-wrap:wrap; margin:8px 0 10px }
-  .ih-tile{
-    --ring: rgba(34,197,94,.45);
-    display:flex; align-items:center; gap:10px;
-    padding:11px 14px; border-radius:14px; cursor:pointer;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.22);
-    font-weight:800; color:#fff; /* force white text */
-    transition: transform .14s, box-shadow .2s, border-color .2s, background .2s;
-  }
-  .ih-dot{ width:10px; height:10px; border-radius:50%; background:var(--lime); box-shadow:0 0 10px var(--ring) }
-  .ih-tile:hover{ transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.25), 0 0 0 3px rgba(34,197,94,.12) inset }
-  .ih-tile.is-active{
-    background:color-mix(in oklab, var(--brand) 18%, transparent);
-    border-color:rgba(59,130,246,.6);
-    box-shadow:0 10px 26px rgba(59,130,246,.26) inset, 0 10px 26px rgba(0,0,0,.28);
-  }
+    .ih-hero__wrap{ max-width:1180px; margin:0 auto; padding: clamp(28px,5vw,64px) clamp(16px,3vw,32px) }
+    .ih-hero__grid{ display:grid; gap:28px; grid-template-columns:1.1fr .9fr; align-items:center }
+    @media (max-width:980px){ .ih-hero__grid{ grid-template-columns:1fr } }
 
-  /* microcopy + tiny learn links */
-  .ih-micro{ color:var(--mut); font-size:.95rem; min-height:1.5em }
-  .ih-links{ margin-top:6px; display:flex; gap:14px; flex-wrap:wrap }
-  .ih-links a{
-    color:var(--ink); opacity:.9; text-decoration:none; font-weight:700; font-size:.92rem;
-    background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.2); padding:6px 10px; border-radius:10px;
-  }
-  .ih-links a:hover{ background:rgba(255,255,255,.16) }
+    .ih-eyebrow{
+      display:inline-block; padding:6px 12px; border-radius:999px;
+      background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.22);
+      font-weight:800; font-size:.9rem; letter-spacing:.02em; margin-bottom:8px;
+    }
+    .ih-hero h1{ margin:0 0 8px; font-weight:900; letter-spacing:-.02em; font-size: clamp(34px, 7.2vw, 84px); line-height:1.02 }
+    .ih-hero .sub{ margin:0 0 16px; color:var(--mut); font-size: clamp(16px,1.4vw,20px); max-width:56ch }
 
-  /* subtle scroll cue */
-  .ih-cue{ margin-top:18px; font-size:.9rem; color:var(--mut) }
-  .ih-cue span{ display:inline-block; transform:translateY(2px); animation:float 1.4s ease-in-out infinite }
-  @keyframes float{ 0%,100%{ transform:translateY(2px) } 50%{ transform:translateY(6px) } }
+    /* Service tiles */
+    .ih-tiles{ display:flex; gap:12px; flex-wrap:wrap; margin:8px 0 10px }
+    .ih-tile{
+      --ring: rgba(34,197,94,.45);
+      display:flex; align-items:center; gap:10px;
+      padding:11px 14px; border-radius:14px; cursor:pointer;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.22);
+      font-weight:800; color:#fff;
+      transition: transform .14s, box-shadow .2s, border-color .2s, background .2s;
+    }
+    .ih-dot{ width:10px; height:10px; border-radius:50%; background:var(--lime); box-shadow:0 0 10px var(--ring) }
+    .ih-tile:hover{ transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.25), 0 0 0 3px rgba(34,197,94,.12) inset }
+    .ih-tile.is-active{
+      background:color-mix(in oklab, var(--brand) 18%, transparent);
+      border-color:rgba(59,130,246,.6);
+      box-shadow:0 10px 26px rgba(59,130,246,.26) inset, 0 10px 26px rgba(0,0,0,.28);
+    }
 
-  /* Right media */
-  .ih-media{
-    position:relative; border-radius:22px; overflow:hidden;
-    background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-    border:1px solid rgba(225,235,255,.16);
-    box-shadow:0 26px 70px rgba(0,0,0,.45);
-    min-height: clamp(240px, 34vw, 420px);
-  }
-  .ih-media iframe, .ih-media img{
-    position:absolute; inset:-1px; width:calc(100% + 2px); height:calc(100% + 2px); border:0; display:block;
-  }
-  .ih-media .scrim{
-    position:absolute; inset:0;
-    background:
-      radial-gradient(60% 50% at 70% -10%, rgba(59,130,246,.18), transparent 60%),
-      linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.28) 65%);
-    mix-blend-mode:multiply; pointer-events:none;
-  }
-</style>
+    /* microcopy + tiny learn links */
+    .ih-micro{ color:var(--mut); font-size:.95rem; min-height:1.5em }
+    .ih-links{ margin-top:6px; display:flex; gap:14px; flex-wrap:wrap }
+    .ih-links a{
+      color:var(--ink); opacity:.9; text-decoration:none; font-weight:700; font-size:.92rem;
+      background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.2); padding:6px 10px; border-radius:10px;
+    }
+    .ih-links a:hover{ background:rgba(255,255,255,.16) }
 
-<section class="ih-hero" aria-label="Hero">
-  <div class="ih-hero__wrap">
-    <div class="ih-hero__grid">
-      <!-- LEFT -->
-      <div>
-        <span class="ih-eyebrow">Ironhide Analytics</span>
-        <h1>Turning data<br>into decisions.</h1>
-        <p class="sub">Dashboards, automations, and reporting your whole team can use—fast.</p>
+    /* subtle scroll cue */
+    .ih-cue{ margin-top:18px; font-size:.9rem; color:var(--mut) }
+    .ih-cue span{ display:inline-block; transform:translateY(2px); animation:float 1.4s ease-in-out infinite }
+    @keyframes float{ 0%,100%{ transform:translateY(2px) } 50%{ transform:translateY(6px) } }
 
-        <!-- Service tiles -->
-        <div class="ih-tiles" role="tablist" aria-label="Service options">
-          <button class="ih-tile is-active" data-key="sprint" role="tab" aria-selected="true">
-            <span class="ih-dot"></span> 10–14 day Sprints
-          </button>
-          <button class="ih-tile" data-key="mini" role="tab" aria-selected="false">
-            <span class="ih-dot"></span> Mini-Projects (with upgrade credit)
-          </button>
+    /* Right media */
+    .ih-media{
+      position:relative; border-radius:22px; overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(225,235,255,.16);
+      box-shadow:0 26px 70px rgba(0,0,0,.45);
+      min-height: clamp(240px, 34vw, 420px);
+    }
+    .ih-media iframe, .ih-media img{
+      position:absolute; inset:-1px; width:calc(100% + 2px); height:calc(100% + 2px); border:0; display:block;
+    }
+    .ih-media .scrim{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(60% 50% at 70% -10%, rgba(59,130,246,.18), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.28) 65%);
+      mix-blend-mode:multiply; pointer-events:none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================= Ironhide • HERO (no big CTA) ======================= -->
+  <section class="ih-hero" aria-label="Hero">
+    <div class="ih-hero__wrap">
+      <div class="ih-hero__grid">
+        <!-- LEFT -->
+        <div>
+          <span class="ih-eyebrow">Ironhide Analytics</span>
+          <h1>Turning data<br>into decisions.</h1>
+          <p class="sub">Dashboards, automations, and reporting your whole team can use—fast.</p>
+
+          <!-- Service tiles -->
+          <div class="ih-tiles" role="tablist" aria-label="Service options">
+            <button class="ih-tile is-active" data-key="sprint" role="tab" aria-selected="true">
+              <span class="ih-dot"></span> 10–14 day Sprints
+            </button>
+            <button class="ih-tile" data-key="mini" role="tab" aria-selected="false">
+              <span class="ih-dot"></span> Mini-Projects (with upgrade credit)
+            </button>
+          </div>
+
+          <div class="ih-micro" id="ihServiceLine">
+            Ship the first meaningful win in two weeks—then keep what works.
+          </div>
+          <div class="ih-links">
+            <a href="/how-it-works#sprints">What’s a Sprint?</a>
+            <a href="/mini-projects">What’s a Mini-Project?</a>
+          </div>
+
+          <div class="ih-cue">Scroll to see how it works <span>▾</span></div>
         </div>
 
-        <div class="ih-micro" id="ihServiceLine">
-          Ship the first meaningful win in two weeks—then keep what works.
+        <!-- RIGHT: Vimeo panel -->
+        <div class="ih-media" aria-label="Hero media">
+          <!-- Your video @ 9.025s -->
+          <iframe
+            src="https://player.vimeo.com/video/1116472974?autoplay=0&muted=0&loop=0&playsinline=1&byline=0&title=0&portrait=0&dnt=1"
+            style="width:100%;height:100%;border:0;border-radius:16px;"
+            allow="autoplay; fullscreen; picture-in-picture"
+            title="Ironhide Analytics Hero Video">
+          </iframe>
+          <div class="scrim" aria-hidden="true"></div>
         </div>
-        <div class="ih-links">
-          <a href="/how-it-works#sprints">What’s a Sprint?</a>
-          <a href="/mini-projects">What’s a Mini-Project?</a>
-        </div>
-
-        <div class="ih-cue">Scroll to see how it works <span>▾</span></div>
-      </div>
-
-      <!-- RIGHT: Vimeo panel -->
-      <div class="ih-media" aria-label="Hero media">
-        <!-- Your video @ 9.025s -->
-     <iframe 
-  src="https://player.vimeo.com/video/1116472974?autoplay=0&muted=0&loop=0&playsinline=1&byline=0&title=0&portrait=0&dnt=1"
-  style="width:100%;height:100%;border:0;border-radius:16px;"
-  allow="autoplay; fullscreen; picture-in-picture"
-  title="Ironhide Analytics Hero Video">
-</iframe>
-        </iframe>
-        <div class="scrim" aria-hidden="true"></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+  <!-- =================== /Ironhide • HERO =================== -->
 
-<script>
-(() => {
-  const line = document.getElementById('ihServiceLine');
-  const copy = {
-    sprint: "Ship the first meaningful win in two weeks—then keep what works.",
-    mini:   "Pick a scoped win in days. If you upgrade, your spend becomes credit."
-  };
-  const tiles = Array.from(document.querySelectorAll('.ih-tile'));
-  tiles.forEach(t => {
-    t.addEventListener('click', () => {
-      tiles.forEach(x => { x.classList.remove('is-active'); x.setAttribute('aria-selected','false'); });
-      t.classList.add('is-active'); t.setAttribute('aria-selected','true');
-      line.textContent = copy[t.getAttribute('data-key')] || "";
-    });
-  });
-})();
-</script>
-<script>
-(function(){
-  function post() {
-    const h = document.documentElement.scrollHeight;
-    parent?.postMessage?.({ type: 'ihHeroHeight', height: h }, '*');
-  }
-  window.addEventListener('load', post);
-  window.addEventListener('resize', ()=>{ requestAnimationFrame(post); });
-  new ResizeObserver(post).observe(document.body);
-})();
-</script>
+  <script>
+    // toggle microcopy for the two tiles
+    (() => {
+      const line = document.getElementById('ihServiceLine');
+      const copy = {
+        sprint: "Ship the first meaningful win in two weeks—then keep what works.",
+        mini:   "Pick a scoped win in days. If you upgrade, your spend becomes credit."
+      };
+      const tiles = Array.from(document.querySelectorAll('.ih-tile'));
+      tiles.forEach(t => {
+        t.addEventListener('click', () => {
+          tiles.forEach(x => { x.classList.remove('is-active'); x.setAttribute('aria-selected','false'); });
+          t.classList.add('is-active'); t.setAttribute('aria-selected','true');
+          line.textContent = copy[t.getAttribute('data-key')] || "";
+          // content height may change (wraps), so notify parent again
+          queueMicrotask(sendHeight);
+        });
+      });
+    })();
+  </script>
 
-<!-- === Height Reporter: HERO === -->
-<script>
-(() => {
-  const ID = "ihHero";
-  function send() {
-    const h = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
-    parent.postMessage({ height: h, id: ID }, "*");
-  }
-  window.addEventListener("load", send);
-  new ResizeObserver(send).observe(document.documentElement);
-  window.addEventListener("resize", () => requestAnimationFrame(send));
-  window.addEventListener("message", (e) => {
-    if ((e.data || {}).cmd === "ih:getHeight") send();
-  });
-})();
-</script>
-<!-- =================== /Ironhide • HERO =================== -->
+  <!-- Single, robust height reporter -->
+  <script>
+    (function () {
+      function measuredHeight() {
+        return Math.max(
+          document.documentElement.scrollHeight,
+          document.body.scrollHeight
+        );
+      }
+      function sendHeight() {
+        try {
+          var h = measuredHeight();
+          window.parent.postMessage({ type: 'ihHeroHeight', height: h }, '*');
+        } catch (e) {}
+      }
+
+      // initial + load
+      if (document.readyState === 'complete') sendHeight();
+      else window.addEventListener('load', sendHeight);
+
+      // fonts/images settling
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(sendHeight).catch(function(){});
+      }
+
+      // window resize
+      window.addEventListener('resize', debounce(sendHeight, 150));
+
+      // DOM mutations (tile clicks, async bits)
+      new MutationObserver(() => sendHeight())
+        .observe(document.documentElement, { childList:true, subtree:true, attributes:true, characterData:true });
+
+      // safety pings
+      setTimeout(sendHeight, 300);
+      setTimeout(sendHeight, 1200);
+
+      function debounce(fn, wait){ let t; return ()=>{ clearTimeout(t); t=setTimeout(fn,wait); }; }
+
+      // expose for other scripts if needed
+      window.__ihSendHeroHeight = sendHeight;
+    })();
+  </script>
+</body>
+</html>
