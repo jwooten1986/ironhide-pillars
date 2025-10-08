@@ -10,116 +10,116 @@
     --ink:#eaf1ff; --mut:rgba(234,241,255,.82);
     --bg1:#0f1424; --bg2:#151c30; --brand:#4aa3ff; --lime:#22c55e;
     --maxw:1180px; --cardw:940px; --radius:20px;
-    --shadow: 0 26px 70px rgba(0,0,0,.45);
-    --shine: radial-gradient(900px 600px at 110% -10%, rgba(74,163,255,.22), transparent 60%);
+    --shadow:0 26px 70px rgba(0,0,0,.45);
+    --shine:radial-gradient(900px 600px at 110% -10%, rgba(74,163,255,.22), transparent 60%);
   }
   html,body{margin:0}
   body{
-    font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+    font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans";
     color:var(--ink);
     background:
       radial-gradient(1200px 800px at 12% -10%, rgba(59,130,246,.18), transparent 70%),
       radial-gradient(1000px 700px at 88% 110%, rgba(59,130,246,.12), transparent 70%),
       linear-gradient(180deg,var(--bg1),var(--bg2));
-    padding: clamp(28px,4vw,48px) 0 64px;
-    overflow-x: hidden;
+    padding:clamp(28px,4vw,48px) 0 64px;
+    overflow-x:hidden;
   }
-  /* Subtle animated beam */
   body::before{
-    content:""; position:fixed; inset:-20% -20% -20% -20%;
-    background: radial-gradient(50% 40% at 30% -10%, rgba(74,163,255,.10), transparent 70%);
-    filter: blur(20px); mix-blend-mode: screen; pointer-events:none;
-    animation: drift 18s linear infinite;
+    content:"";position:fixed;inset:-20% -20% -20% -20%;
+    background:radial-gradient(50% 40% at 30% -10%, rgba(74,163,255,.10), transparent 70%);
+    filter:blur(20px);mix-blend-mode:screen;pointer-events:none;
+    animation:drift 18s linear infinite;
   }
   @keyframes drift{
-    0%{ transform: translate3d(-2%,0,0) }
-    50%{ transform: translate3d(2%,1%,0) }
-    100%{ transform: translate3d(-2%,0,0) }
+    0%{transform:translate3d(-2%,0,0)}
+    50%{transform:translate3d(2%,1%,0)}
+    100%{transform:translate3d(-2%,0,0)}
   }
 
-  .ihw{max-width:var(--maxw); margin:0 auto; padding:0 clamp(16px,3vw,32px); text-align:center}
-  h2{margin:0 0 8px; font-weight:900; letter-spacing:-.01em; font-size:clamp(28px,3.6vw,46px); line-height:1.05}
-  .sub{margin:0 auto 20px; color:var(--mut); max-width:70ch}
+  .ihw{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,3vw,32px);text-align:center}
+  h2{margin:0 0 8px;font-weight:900;letter-spacing:-.01em;font-size:clamp(28px,3.6vw,46px);line-height:1.05}
+  .sub{margin:0 auto 20px;color:var(--mut);max-width:70ch}
 
   /* Controls */
-  .ctrl{display:flex; justify-content:center; align-items:center; gap:14px; margin:16px 0 12px; flex-wrap:wrap}
+  .ctrl{display:flex;justify-content:center;align-items:center;gap:14px;margin:16px 0 12px;flex-wrap:wrap}
   .arrow{
-    width:42px; height:42px; border-radius:999px; display:grid; place-items:center;
-    background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.24);
-    cursor:pointer; transition:transform .08s, background .2s
+    width:42px;height:42px;border-radius:999px;display:grid;place-items:center;
+    background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);
+    cursor:pointer;transition:transform .08s,background .2s
   }
-  .arrow:hover{ transform:translateY(-2px); background:rgba(255,255,255,.18) }
-  .pills{ display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap }
+  .arrow:hover{transform:translateY(-2px);background:rgba(255,255,255,.18)}
+  .pills{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
   .pill{
-    display:inline-flex; align-items:center; gap:8px;
-    padding:10px 16px; border-radius:14px; font-weight:800;
-    border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08);
-    color:var(--ink); cursor:pointer; opacity:.78;
-    transition:transform .15s, background .2s, border-color .2s, box-shadow .2s, opacity .2s
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 16px;border-radius:14px;font-weight:800;
+    border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);
+    color:var(--ink);cursor:pointer;opacity:.78;
+    transition:transform .15s,background .2s,border-color .2s,box-shadow .2s,opacity .2s
   }
-  .pill::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--lime); box-shadow:0 0 10px rgba(34,197,94,.6) }
-  .pill.side{ transform:scale(.96) }
+  .pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px rgba(34,197,94,.6)}
+  .pill.side{transform:scale(.96)}
   .pill.active{
-    opacity:1; transform:scale(1.08);
-    background:color-mix(in oklab, var(--brand) 25%, transparent);
+    opacity:1;transform:scale(1.08);
+    background:color-mix(in oklab,var(--brand) 25%,transparent);
     border-color:rgba(59,130,246,.6);
-    box-shadow:0 8px 22px rgba(59,130,246,.28) inset, 0 8px 24px rgba(0,0,0,.25)
+    box-shadow:0 8px 22px rgba(59,130,246,.28) inset,0 8px 24px rgba(0,0,0,.25)
   }
+
+  /* Pause button */
+  .pause{
+    padding:10px 14px;border-radius:14px;font-weight:800;cursor:pointer;
+    background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);color:var(--ink);
+    transition:transform .08s,background .2s,border-color .2s;
+  }
+  .pause:hover{transform:translateY(-2px);background:rgba(255,255,255,.18)}
 
   /* Progress bar */
-  .timeline{height:3px; width:min(640px, 80vw); margin:10px auto 16px; background:rgba(255,255,255,.12); border-radius:999px; overflow:hidden}
-  .bar{height:100%; width:0%; background:linear-gradient(90deg, rgba(74,163,255,1), rgba(34,197,94,1)); transition: width .2s linear}
+  .timeline{height:3px;width:min(640px,80vw);margin:10px auto 16px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
+  .bar{height:100%;width:0%;background:linear-gradient(90deg,rgba(74,163,255,1),rgba(34,197,94,1));transition:width .2s linear}
 
   /* Stage & Card */
-  .stage{ display:block; width:100%; margin:0 auto; min-height:min(68vh,700px) }
+  .stage{display:block;width:100%;margin:0 auto;min-height:min(68vh,700px)}
   .card{
-    display:none; width:min(var(--cardw), calc(100vw - 48px)); margin:0 auto;
-    border-radius:var(--radius); padding:24px; text-align:left; position:relative;
+    display:none;width:min(var(--cardw),calc(100vw - 48px));margin:0 auto;
+    border-radius:var(--radius);padding:24px;text-align:left;position:relative;
     background:rgba(18,23,40,.94);
     border:1px solid rgba(225,235,255,.16);
     box-shadow:var(--shadow);
     opacity:0;
   }
   .card::before{
-    content:""; position:absolute; inset:0; background: var(--shine);
-    opacity:.8; pointer-events:none;
+    content:"";position:absolute;inset:0;background:var(--shine);
+    opacity:.8;pointer-events:none;
   }
-  .card.show{ display:block; animation:fadeUp .42s cubic-bezier(.2,.7,0,1) both }
-  @keyframes fadeUp{ from{opacity:0; transform:translateY(8px) scale(.985)} to{opacity:1; transform:translateY(0) scale(1)} }
-  .card.show .badge{ animation: glow 1.6s ease-out 0s 1 both }
-  @keyframes glow{ 0%{ box-shadow:0 0 0 rgba(74,163,255,0)} 60%{ box-shadow:0 0 24px rgba(74,163,255,.45)} 100%{ box-shadow:0 0 10px rgba(74,163,255,.25)} }
+  .card.show{display:block;animation:fadeUp .42s cubic-bezier(.2,.7,0,1) both}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
 
-  .grid{ display:grid; gap:16px; grid-template-columns:1.2fr .8fr }
-  @media (max-width:900px){ .grid{ grid-template-columns:1fr } }
-  @media (max-width:520px){ .stage{ min-height:min(62vh,560px) } }
+  .grid{display:grid;gap:16px;grid-template-columns:1.2fr .8fr}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  @media(max-width:520px){.stage{min-height:min(62vh,560px)}}
 
-  .card h3{ margin:0 0 8px; font-size:clamp(20px,2.2vw,28px); font-weight:900 }
-  .card p{ margin:0 10px 12px 0; color:var(--mut) }
+  .card h3{margin:0 0 8px;font-size:clamp(20px,2.2vw,28px);font-weight:900}
+  .card p{margin:0 10px 12px 0;color:var(--mut)}
 
-  .list{ list-style:none; margin:0 0 12px; padding:0; display:grid; gap:8px }
-  .li{ display:grid; grid-template-columns:18px 1fr; gap:8px; align-items:start; opacity:0; transform:translateY(6px) }
-  .card.show .li{ animation: itemIn .5s ease forwards }
-  .card.show .li:nth-child(1){ animation-delay:.06s }
-  .card.show .li:nth-child(2){ animation-delay:.16s }
-  .card.show .li:nth-child(3){ animation-delay:.26s }
-  @keyframes itemIn{ to{ opacity:1; transform:translateY(0) } }
-  .dot{ width:11px; height:11px; border-radius:50%; background:var(--lime); box-shadow:0 0 8px rgba(34,197,94,.6); margin-top:4px }
+  .list{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:8px}
+  .li{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start;opacity:0;transform:translateY(6px)}
+  .card.show .li{animation:itemIn .5s ease forwards}
+  .card.show .li:nth-child(1){animation-delay:.06s}
+  .card.show .li:nth-child(2){animation-delay:.16s}
+  .card.show .li:nth-child(3){animation-delay:.26s}
+  @keyframes itemIn{to{opacity:1;transform:translateY(0)}}
+  .dot{width:11px;height:11px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px rgba(34,197,94,.6);margin-top:4px}
 
-  .kpis{ display:grid; gap:10px; grid-template-columns:repeat(3,1fr) }
-  .kpi{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:12px; padding:10px; text-align:center }
-  .kpi b{ display:block; font-size:1.1rem }
+  .kpis{display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
+  .kpi{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px;text-align:center}
+  .kpi b{display:block;font-size:1.1rem}
 
-  .badge{ display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.06); margin-bottom:10px; font-size:.82rem }
-  .col h4{ margin:0 0 6px; font-size:1rem; opacity:.9 }
-  .col ul{ margin:0; padding-left:16px }
-  .cta{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px }
-  .btn{ padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.28); background:rgba(255,255,255,.1); color:var(--ink); font-weight:800; text-decoration:none }
-  .btn.p{ background:color-mix(in oklab,var(--brand) 30%, transparent); border-color:rgba(59,130,246,.6) }
-
-  @media (prefers-reduced-motion: reduce){
-    .card{ animation:none }
-    .pill,.arrow,.li{ transition:none; animation:none }
-  }
+  .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);margin-bottom:10px;font-size:.82rem}
+  .col h4{margin:0 0 6px;font-size:1rem;opacity:.9}
+  .col ul{margin:0;padding-left:16px}
+  .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .btn{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);color:var(--ink);font-weight:800;text-decoration:none}
+  .btn.p{background:color-mix(in oklab,var(--brand) 30%,transparent);border-color:rgba(59,130,246,.6)}
 </style>
 </head>
 <body>
@@ -131,17 +131,19 @@
       <button class="arrow" id="prev" type="button" aria-label="Previous">‹</button>
       <div class="pills" id="pillRow">
         <button class="pill active" data-idx="0" id="pill-sys" type="button" aria-selected="true">Systemize</button>
-        <button class="pill side"   data-idx="1" id="pill-vis" type="button" aria-selected="false">Visualize</button>
-        <button class="pill side"   data-idx="2" id="pill-opt" type="button" aria-selected="false">Optimize</button>
+        <button class="pill side" data-idx="1" id="pill-vis" type="button" aria-selected="false">Visualize</button>
+        <button class="pill side" data-idx="2" id="pill-opt" type="button" aria-selected="false">Optimize</button>
       </div>
       <button class="arrow" id="next" type="button" aria-label="Next">›</button>
+      <button class="pause" id="pauseBtn" type="button" aria-pressed="false" style="margin-left:8px">Pause</button>
     </div>
 
     <div class="timeline" aria-hidden="true"><div class="bar" id="bar"></div></div>
 
     <div class="stage" id="stage">
-      <!-- 0 — Systemize -->
-      <article class="card show" data-idx="0" role="region" aria-labelledby="pill-sys">
+      <!-- (Cards same as before) -->
+      <!-- Systemize -->
+      <article class="card show" data-idx="0">
         <div class="grid">
           <div>
             <span class="badge">Reliable data</span>
@@ -158,8 +160,8 @@
               <div class="kpi"><b>1</b><span class="sub">single source of truth</span></div>
             </div>
             <div class="cta">
-              <a class="btn p" href="/how-it-works">See how a Sprint builds this</a>
-              <a class="btn" href="/mini-projects">Try a Mini-Project</a>
+              <a class="btn p" href="#">See how a Sprint builds this</a>
+              <a class="btn" href="#">Try a Mini-Project</a>
             </div>
           </div>
           <div class="col">
@@ -173,8 +175,8 @@
         </div>
       </article>
 
-      <!-- 1 — Visualize -->
-      <article class="card" data-idx="1" role="region" aria-labelledby="pill-vis">
+      <!-- Visualize -->
+      <article class="card" data-idx="1">
         <div class="grid">
           <div>
             <span class="badge">Clarity at a glance</span>
@@ -191,8 +193,8 @@
               <div class="kpi"><b>0</b><span class="sub">guesswork</span></div>
             </div>
             <div class="cta">
-              <a class="btn p" href="/case-studies">See examples</a>
-              <a class="btn" href="/how-it-works">Design principles</a>
+              <a class="btn p" href="#">See examples</a>
+              <a class="btn" href="#">Design principles</a>
             </div>
           </div>
           <div class="col">
@@ -206,8 +208,8 @@
         </div>
       </article>
 
-      <!-- 2 — Optimize -->
-      <article class="card" data-idx="2" role="region" aria-labelledby="pill-opt">
+      <!-- Optimize -->
+      <article class="card" data-idx="2">
         <div class="grid">
           <div>
             <span class="badge">Close the loop</span>
@@ -224,8 +226,8 @@
               <div class="kpi"><b>+2–4h</b><span class="sub">saved per analyst/day</span></div>
             </div>
             <div class="cta">
-              <a class="btn p" href="/how-it-works#automation">Automation playbook</a>
-              <a class="btn" href="/mini-projects">Pilot a workflow</a>
+              <a class="btn p" href="#">Automation playbook</a>
+              <a class="btn" href="#">Pilot a workflow</a>
             </div>
           </div>
           <div class="col">
@@ -243,95 +245,11 @@
 
 <script>
 (function(){
-  const pills = [...document.querySelectorAll('.pill')];
-  const cards = [...document.querySelectorAll('.card')];
-  const prev  = document.getElementById('prev');
-  const next  = document.getElementById('next');
-  const bar   = document.getElementById('bar');
-  const wrap  = document.getElementById('ihwrap');
-  
+  const pills=[...document.querySelectorAll('.pill')];
+  const cards=[...document.querySelectorAll('.card')];
+  const prev=document.getElementById('prev');
+  const next=document.getElementById('next');
+  const bar=document.getElementById('bar');
+  const pauseBtn=document.getElementById('pauseBtn');
 
-  let i = 0, lock = false, timer = null, progressTimer = null;
-  const AUTOPLAY = true;
-  const DURATION = 5200;
-  const STOP_AFTER_INTERACT = true;
-
-  function setPills(idx){
-    pills.forEach((p,j)=>{
-      p.classList.toggle('active', j===idx);
-      p.classList.toggle('side',   j!==idx);
-      p.setAttribute('aria-selected', j===idx ? 'true' : 'false');
-    });
-  }
-
-  function show(idx, userTriggered=false){
-    if (lock) return;
-    idx = (idx + cards.length) % cards.length;
-    if (idx === i) return;
-    lock = true;
-
-    cards[i].classList.remove('show');
-    cards[idx].classList.add('show');
-    i = idx; setPills(i);
-
-    // restart progress
-    startProgress();
-    if (userTriggered) restartAutoplay();
-    resizeToFit();
-    setTimeout(()=>{ lock=false; }, 440);
-  }
-
-  function go(n, user=false){
-  show(n, user);
-  if (user && STOP_AFTER_INTERACT) stopAutoplay();
-}
-
-  // Hover pause
-  ['mouseenter','focusin','touchstart'].forEach(evt => wrap.addEventListener(evt, stopAutoplay, {passive:true}));
-  ['mouseleave','focusout','touchend'].forEach(evt => wrap.addEventListener(evt, startAutoplay, {passive:true}));
-
-  function startAutoplay(){
-    if (!AUTOPLAY) return;
-    stopAutoplay();
-    timer = setInterval(()=> show(i+1), DURATION);
-    startProgress();
-  }
-  function stopAutoplay(){
-    if (timer) clearInterval(timer);
-    timer = null;
-    stopProgress();
-  }
-  function restartAutoplay(){ stopAutoplay(); startAutoplay(); }
-
-  // Progress bar control
-  function startProgress(){
-    stopProgress();
-    bar.style.transition = 'none';
-    bar.style.width = '0%';
-    requestAnimationFrame(()=>{
-      bar.style.transition = `width ${DURATION}ms linear`;
-      bar.style.width = '100%';
-    });
-    progressTimer = setTimeout(()=>{ /* let it fill; autoplay will advance */ }, DURATION);
-  }
-  function stopProgress(){
-    if (progressTimer) clearTimeout(progressTimer);
-    bar.style.transition = 'none';
-    bar.style.width = '0%';
-  }
-
-  /* Resize to parent (iframe) */
-  function resizeToFit(){
-    const h = document.documentElement.scrollHeight;
-    parent?.postMessage?.({type:'ihPillarsHeight', height:h}, '*');
-  }
-  new ResizeObserver(resizeToFit).observe(document.body);
-  window.addEventListener('load', resizeToFit);
-  window.addEventListener('resize', resizeToFit);
-
-  // init
-  requestAnimationFrame(()=>{ cards.forEach((c,idx)=>c.classList.toggle('show', idx===0)); setPills(0); startAutoplay(); resizeToFit(); });
-})();
-</script>
-</body>
-</html>
+  const AUTOP
