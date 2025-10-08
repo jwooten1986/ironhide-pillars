@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!doctype html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="utf-8" /&gt;</p>
+<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</p>
+<p class="p1">&lt;title&gt;Ironhide — Systemize · Visualize · Optimize&lt;/title&gt;</p>
+<p class="p1">&lt;meta name="color-scheme" content="dark light" /&gt;</p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- Theme ---------- */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>:root{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--ink:#eaf1ff; --mut:rgba(234,241,255,.82);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--bg1:#0f1424; --bg2:#151c30; --brand:#3b82f6; --lime:#22c55e;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>--maxw:1180px; --cardw:940px; --radius:20px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>html,body{margin:0}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>body{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background:</p>
+<p class="p1"><span class="Apple-converted-space">      </span>radial-gradient(1200px 800px at 12% -10%, rgba(59,130,246,.18), transparent 70%),</p>
+<p class="p1"><span class="Apple-converted-space">      </span>radial-gradient(1000px 700px at 88% 110%, rgba(59,130,246,.12), transparent 70%),</p>
+<p class="p1"><span class="Apple-converted-space">      </span>linear-gradient(180deg,var(--bg1),var(--bg2));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding: clamp(28px,4vw,48px) 0 64px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.ihw{max-width:var(--maxw); margin:0 auto; padding:0 clamp(16px,3vw,32px); text-align:center}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>h2{margin:0 0 8px; font-weight:900; letter-spacing:-.01em; font-size:clamp(28px,3.6vw,46px); line-height:1.05}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.sub{margin:0 auto 20px; color:var(--mut); max-width:70ch}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- Controls ---------- */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.ctrl{display:flex; justify-content:center; align-items:center; gap:14px; margin:16px 0 24px; flex-wrap:wrap}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.arrow{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>width:42px; height:42px; border-radius:999px; display:grid; place-items:center;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.24);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cursor:pointer; transition:transform .08s, background .2s</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.arrow:hover{ transform:translateY(-2px); background:rgba(255,255,255,.18) }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.pills{ display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.pill{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display:inline-flex; align-items:center; gap:8px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>padding:10px 16px; border-radius:14px; font-weight:800;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>color:var(--ink); cursor:pointer; opacity:.78;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>transition:transform .15s, background .2s, border-color .2s, box-shadow .2s, opacity .2s</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.pill::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--lime); box-shadow:0 0 10px rgba(34,197,94,.6) }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.pill.side{ transform:scale(.96) }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.pill.active{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>opacity:1; transform:scale(1.08);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background:color-mix(in oklab, var(--brand) 25%, transparent);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-color:rgba(59,130,246,.6);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>box-shadow:0 8px 22px rgba(59,130,246,.28) inset, 0 8px 24px rgba(0,0,0,.25)</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* ---------- Stage &amp; Card ---------- */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.stage{ display:block; width:100%; margin:0 auto; min-height:min(70vh,700px) }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>display:none; width:min(var(--cardw), calc(100vw - 48px)); margin:0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border-radius:var(--radius); padding:24px; text-align:left;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>background:rgba(18,23,40,.94);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>border:1px solid rgba(225,235,255,.16);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>box-shadow:0 26px 70px rgba(0,0,0,.45);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>opacity:0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card.show{ display:block; animation:fadeUp .35s ease both }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@keyframes fadeUp{ from{opacity:0; transform:translateY(8px) scale(.985)} to{opacity:1; transform:translateY(0) scale(1)} }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.grid{ display:grid; gap:16px; grid-template-columns:1.2fr .8fr }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@media (max-width:900px){ .grid{ grid-template-columns:1fr } }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@media (max-width:520px){ .stage{ min-height:min(62vh,560px) } }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card h3{ margin:0 0 8px; font-size:clamp(20px,2.2vw,28px); font-weight:900 }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card p{ margin:0 10px 12px 0; color:var(--mut) }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.list{ list-style:none; margin:0 0 12px; padding:0; display:grid; gap:8px }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.li{ display:grid; grid-template-columns:14px 1fr; gap:8px }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.dot{ width:9px; height:9px; border-radius:50%; background:var(--lime); box-shadow:0 0 8px rgba(34,197,94,.6); margin-top:4px }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.kpis{ display:grid; gap:10px; grid-template-columns:repeat(3,1fr) }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.kpi{ background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18); border-radius:12px; padding:10px; text-align:center }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.kpi b{ display:block; font-size:1.1rem }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.col h4{ margin:0 0 6px; font-size:1rem; opacity:.9 }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.col ul{ margin:0; padding-left:16px }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.cta{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn{ padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.28); background:rgba(255,255,255,.1); color:var(--ink); font-weight:800; text-decoration:none }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn.p{ background:color-mix(in oklab,var(--brand) 30%, transparent); border-color:rgba(59,130,246,.6) }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* Motion preferences */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@media (prefers-reduced-motion: reduce){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.card{ animation:none }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pill,.arrow{ transition:none }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* Light-mode friendliness (just in case) */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@media (prefers-color-scheme: light){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>:root{ --ink:#0e1b33; --mut:#3b4a66 }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* Minimal noscript fallback */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>noscript .card{ display:block !important; opacity:1 !important }</p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="ihw"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2&gt;Systemize. Visualize. Optimize.&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="sub"&gt;First we make your data dependable, then understandable, and finally we make it work for you — with automations that close the loop.&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="ctrl" role="group" aria-label="Pillar selector"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="arrow" id="prev" type="button" aria-label="Previous"&gt;‹&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="pills" id="pillRow"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="pill active" data-idx="0" id="pill-sys" type="button" aria-selected="true"&gt;Systemize&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="pill side" <span class="Apple-converted-space">  </span>data-idx="1" id="pill-vis" type="button" aria-selected="false"&gt;Visualize&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="pill side" <span class="Apple-converted-space">  </span>data-idx="2" id="pill-opt" type="button" aria-selected="false"&gt;Optimize&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="arrow" id="next" type="button" aria-label="Next"&gt;›&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="stage" id="stage"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- 0 — Systemize --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;article class="card show" data-idx="0" role="region" aria-labelledby="pill-sys"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Systemize — make the data reliable.&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Replace brittle spreadsheets with governed pipelines and repeatable reporting.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul class="list"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li class="li"&gt;&lt;span class="dot"&gt;&lt;/span&gt;&lt;span&gt;Source → stage → model: clean, deduped, documented.&lt;/span&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li class="li"&gt;&lt;span class="dot"&gt;&lt;/span&gt;&lt;span&gt;Automated refreshes, alerts, and SLAs — no manual chasing.&lt;/span&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li class="li"&gt;&lt;span class="dot"&gt;&lt;/span&gt;&lt;span&gt;One governed truth across teams and tools.&lt;/span&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="kpis"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="kpi"&gt;&lt;b&gt;–80%&lt;/b&gt;&lt;span class="sub"&gt;manual reporting time&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="kpi"&gt;&lt;b&gt;99.9%&lt;/b&gt;&lt;span class="sub"&gt;refresh reliability&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="kpi"&gt;&lt;b&gt;1&lt;/b&gt;&lt;span class="sub"&gt;single source of truth&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="cta"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;a class="btn p" href="/how-it-works"&gt;See how a Sprint builds this&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;a class="btn" href="/mini-projects"&gt;Try a Mini-Project&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="col"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4&gt;Deliverables&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;&lt;li&gt;Data model &amp; lineage&lt;/li&gt;&lt;li&gt;Schedules &amp; SLAs&lt;/li&gt;&lt;li&gt;Quality checks &amp; alerts&lt;/li&gt;&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4 style="margin-top:10px"&gt;Stack&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;&lt;li&gt;SQL Server / BigQuery / Snowflake&lt;/li&gt;&lt;li&gt;dbt or native ELT&lt;/li&gt;&lt;li&gt;Airflow / Cloud Scheduler&lt;/li&gt;&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4 style="margin-top:10px"&gt;Outcomes&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;&lt;li&gt;No manual chasing&lt;/li&gt;&lt;li&gt;Auditable refreshes&lt;/li&gt;&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/article&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- 1 — Visualize --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;article class="card" data-idx="1" role="region" aria-labelledby="pill-vis"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Visualize — make the story obvious.&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Dashboards and forecasts that snap into focus at a glance.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul class="list"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li class="li"&gt;&lt;span class="dot"&gt;&lt;/span&gt;&lt;span&gt;Audience-first layouts your team will actually use.&lt;/span&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li class="li"&gt;&lt;span class="dot"&gt;&lt;/span&gt;&lt;span&gt;Drill paths that trade “hunt around” for “tap and know.”&lt;/span&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li class="li"&gt;&lt;span class="dot"&gt;&lt;/span&gt;&lt;span&gt;Forecast &amp; goals beside today’s reality.&lt;/span&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="kpis"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="kpi"&gt;&lt;b&gt;3×&lt;/b&gt;&lt;span class="sub"&gt;dashboard adoption&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="kpi"&gt;&lt;b&gt;+18%&lt;/b&gt;&lt;span class="sub"&gt;faster decisions&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="kpi"&gt;&lt;b&gt;0&lt;/b&gt;&lt;span class="sub"&gt;guesswork&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="cta"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;a class="btn p" href="/case-studies"&gt;See examples&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;a class="btn" href="/how-it-works"&gt;Design principles&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="col"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4&gt;Deliverables&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;&lt;li&gt;KPI tree &amp; audience map&lt;/li&gt;&lt;li&gt;Drill paths &amp; saved views&lt;/li&gt;&lt;li&gt;Forecast overlay&lt;/li&gt;&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4 style="margin-top:10px"&gt;Stack&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;&lt;li&gt;Power BI / Looker Studio / Tableau&lt;/li&gt;&lt;li&gt;Excel/Sheets for light users&lt;/li&gt;&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4 style="margin-top:10px"&gt;Outcomes&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;&lt;li&gt;Clarity in one screen&lt;/li&gt;&lt;li&gt;Fewer “send me that report” Slacks&lt;/li&gt;&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/article&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- 2 — Optimize --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;article class="card" data-idx="2" role="region" aria-labelledby="pill-opt"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Optimize — make the work faster.&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;Automations and AI that remove grunt work and surface the next move.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul class="list"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li class="li"&gt;&lt;span class="dot"&gt;&lt;/span&gt;&lt;span&gt;Auto-distribute reports, nudge owners, close the loop.&lt;/span&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li class="li"&gt;&lt;span class="dot"&gt;&lt;/span&gt;&lt;span&gt;Detection &amp; alerts before problems snowball.&lt;/span&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li class="li"&gt;&lt;span class="dot"&gt;&lt;/span&gt;&lt;span&gt;Cross-app workflows that trigger action.&lt;/span&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="kpis"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="kpi"&gt;&lt;b&gt;–65%&lt;/b&gt;&lt;span class="sub"&gt;ops toil&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="kpi"&gt;&lt;b&gt;24/7&lt;/b&gt;&lt;span class="sub"&gt;monitoring&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="kpi"&gt;&lt;b&gt;+2–4h&lt;/b&gt;&lt;span class="sub"&gt;saved per analyst/day&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="cta"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;a class="btn p" href="/how-it-works#automation"&gt;Automation playbook&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;a class="btn" href="/mini-projects"&gt;Pilot a workflow&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="col"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4&gt;Deliverables&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;&lt;li&gt;Alert rules &amp; anomaly watch&lt;/li&gt;&lt;li&gt;Auto-share &amp; nudges&lt;/li&gt;&lt;li&gt;Workflows (Zapier/Power Automate)&lt;/li&gt;&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4 style="margin-top:10px"&gt;Stack&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;&lt;li&gt;Salesforce/HubSpot hooks&lt;/li&gt;&lt;li&gt;Zapier / Power Automate&lt;/li&gt;&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h4 style="margin-top:10px"&gt;Outcomes&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;&lt;li&gt;Proactive ops, fewer fires&lt;/li&gt;&lt;li&gt;Actions tied to KPIs&lt;/li&gt;&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/article&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;noscript&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.ctrl{ display:none }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>.card{ display:block; opacity:1 }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/noscript&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1">(function(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const enableAutoplay = false; <span class="Apple-converted-space">    </span>// set to true if you want auto-advance</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const autoplayMs <span class="Apple-converted-space">    </span>= 5200;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const pills = [...document.querySelectorAll('.pill')];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const cards = [...document.querySelectorAll('.card')];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const prev<span class="Apple-converted-space">  </span>= document.getElementById('prev');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const next<span class="Apple-converted-space">  </span>= document.getElementById('next');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>let i = 0, lock = false, timer = null;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function setPills(idx){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>pills.forEach((p,j)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>p.classList.toggle('active', j===idx);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>p.classList.toggle('side', <span class="Apple-converted-space">  </span>j!==idx);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>p.setAttribute('aria-selected', j===idx ? 'true' : 'false');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function show(idx){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (lock) return;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>idx = (idx + cards.length) % cards.length;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (idx === i) return;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>lock = true;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>cards[i].classList.remove('show');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>cards[idx].classList.add('show');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>i = idx; setPills(i);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>resizeToFit();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>setTimeout(()=&gt;{ lock=false; }, 380);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function go(n){ show(n); if (timer) { clearInterval(timer); startAutoplay(); } }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>pills.forEach(p =&gt; p.addEventListener('click', () =&gt; go(Number(p.dataset.idx)), {passive:true}));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>prev.addEventListener('click', () =&gt; go(i-1), {passive:true});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>next.addEventListener('click', () =&gt; go(i+1), {passive:true});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.addEventListener('keydown', e =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (e.key === 'ArrowLeft')<span class="Apple-converted-space">  </span>go(i-1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (e.key === 'ArrowRight') go(i+1);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function startAutoplay(){ if(!enableAutoplay) return; timer=setInterval(()=&gt;show(i+1), autoplayMs); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function stopAutoplay(){ if(timer) clearInterval(timer); timer=null; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>/* Post height to parent so iframe auto-resizes */</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function resizeToFit(){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const h = document.documentElement.scrollHeight;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>parent?.postMessage?.({type:'ihPillarsHeight', height:h}, '*');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>new ResizeObserver(resizeToFit).observe(document.body);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>window.addEventListener('load', resizeToFit);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>window.addEventListener('resize', resizeToFit);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// init</p>
+<p class="p1"><span class="Apple-converted-space">  </span>requestAnimationFrame(()=&gt;{ cards.forEach((c,idx)=&gt;c.classList.toggle('show', idx===0)); setPills(0); resizeToFit(); startAutoplay(); });</p>
+<p class="p1">})();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
