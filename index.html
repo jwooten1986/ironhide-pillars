@@ -8,32 +8,30 @@
 <style>
   :root{
     --ink:#eaf1ff; --mut:rgba(234,241,255,.82);
-    --bg1:#0f1424; --bg2:#151c30; --brand:#4aa3ff; --lime:#22c55e;
+    /* Darker, flat page background (no gradients) */
+    --page:#0b111b;
+
+    --brand:#4aa3ff; --lime:#22c55e;
     --maxw:1180px; --cardw:940px; --radius:20px;
     --shadow:0 26px 70px rgba(0,0,0,.45);
-    --shine:radial-gradient(900px 600px at 110% -10%, rgba(74,163,255,.22), transparent 60%);
+
+    /* Card shine overlay (inside the cards only).
+       To disable entirely, set to: none */
+    --shine: radial-gradient(900px 600px at 110% -10%, rgba(74,163,255,.18), transparent 60%);
   }
-  html,body{margin:0}
+
+  /* Reset margins/padding; do NOT pad body (prevents iframe oversize) */
+  html,body{ margin:0; padding:0; }
   body{
     font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans";
     color:var(--ink);
-    background:
-      radial-gradient(1200px 800px at 12% -10%, rgba(59,130,246,.18), transparent 70%),
-      radial-gradient(1000px 700px at 88% 110%, rgba(59,130,246,.12), transparent 70%),
-      linear-gradient(180deg,var(--bg1),var(--bg2));
-    padding:clamp(28px,4vw,48px) 0 64px;
+    background: var(--page);         /* << flat charcoal */
     overflow-x:hidden;
   }
-  /* soft ambient beam */
-  body::before{
-    content:"";position:fixed;inset:-20% -20% -20% -20%;
-    background:radial-gradient(50% 40% at 30% -10%, rgba(74,163,255,.10), transparent 70%);
-    filter:blur(20px);mix-blend-mode:screen;pointer-events:none;
-    animation:drift 18s linear infinite;
-  }
-  @keyframes drift{0%{transform:translate3d(-2%,0,0)}50%{transform:translate3d(2%,1%,0)}100%{transform:translate3d(-2%,0,0)}}
 
-  .ihw{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,3vw,32px);text-align:center}
+  /* Root wrapper: page padding lives here so we only measure the visible block */
+  .ihw{max-width:var(--maxw);margin:0 auto;padding:clamp(28px,4vw,48px) clamp(16px,3vw,32px) 64px;text-align:center}
+
   h2{margin:0 0 8px;font-weight:900;letter-spacing:-.01em;font-size:clamp(28px,3.6vw,46px);line-height:1.05}
   .sub{margin:0 auto 20px;color:var(--mut);max-width:70ch}
 
@@ -84,7 +82,7 @@
     border:1px solid rgba(225,235,255,.16);
     box-shadow:var(--shadow);opacity:0;
   }
-  .card::before{content:"";position:absolute;inset:0;background:var(--shine);opacity:.8;pointer-events:none}
+  .card::before{content:"";position:absolute;inset:0;background:var(--shine);opacity:.7;pointer-events:none}
   .card.show{display:block;animation:fadeUp .42s cubic-bezier(.2,.7,0,1) both}
   @keyframes fadeUp{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
 
@@ -115,7 +113,8 @@
 </style>
 </head>
 <body>
-  <div class="ihw" id="ihwrap">
+  <!-- ROOT WRAPPER (measured by parent) -->
+  <div class="ihw" id="pillars-root">
     <h2>Systemize. Visualize. Optimize.</h2>
     <p class="sub">First we make your data dependable, then understandable, and finally we make it work for you — with automations that close the loop.</p>
 
@@ -279,7 +278,7 @@
     remaining=DURATION;
     if(AUTOPLAY && !paused) startCycle(DURATION);
 
-    resizeToFit();
+    postHeight();
     setTimeout(()=>{lock=false;},420);
   }
 
@@ -341,50 +340,36 @@
     advanceTimer=setTimeout(()=>{ show(i+1); }, ms);
   }
 
-  /* Resize for iframe parent */
-  function resizeToFit(){
-    const h=document.documentElement.scrollHeight;
-    parent?.postMessage?.({type:'ihPillarsHeight', height:h}, '*');
+  /* === Parent resize (Webflow) — measure ONLY the visible root === */
+  const root = document.getElementById('pillars-root');
+  function visibleHeight(){
+    const r = root.getBoundingClientRect();
+    return Math.ceil(r.height) + 2; // tiny buffer to avoid 1px gaps
   }
-  new ResizeObserver(resizeToFit).observe(document.body);
-  window.addEventListener('load', resizeToFit);
-  window.addEventListener('resize', resizeToFit);
-
-  (function(){
-  function post() {
-    const h = document.documentElement.scrollHeight;
-    parent?.postMessage?.({ type: 'ihPillarsHeight', height: h }, '*');
+  function postHeight(){
+    try{
+      window.parent.postMessage({ type:'ihPillarsHeight', height: visibleHeight() }, '*');
+    }catch(e){}
   }
-  window.addEventListener('load', post);
-  window.addEventListener('resize', ()=>{ requestAnimationFrame(post); });
-  new ResizeObserver(post).observe(document.body);
-})();
+  // Observe size/content changes inside the root
+  new ResizeObserver(postHeight).observe(root);
+  // On load / after fonts
+  if (document.readyState === 'complete') postHeight();
+  else window.addEventListener('load', postHeight);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(postHeight).catch(()=>{});
+  }
+  // Also on window resizes
+  let t; window.addEventListener('resize', ()=>{ clearTimeout(t); t=setTimeout(postHeight, 120); });
 
   // init
   requestAnimationFrame(()=>{
     cards.forEach((c,idx)=>c.classList.toggle('show', idx===0));
     setPills(0);
     if(AUTOPLAY) startCycle(DURATION);
-    resizeToFit();
+    postHeight();
   });
 })();
 </script>
 </body>
 </html>
-
-<!-- === Height Reporter: PILLARS === -->
-<script>
-(() => {
-  const ID = "ihPillars";
-  function send() {
-    const h = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
-    parent.postMessage({ height: h, id: ID }, "*");
-  }
-  window.addEventListener("load", send);
-  new ResizeObserver(send).observe(document.documentElement);
-  window.addEventListener("resize", () => requestAnimationFrame(send));
-  window.addEventListener("message", (e) => {
-    if ((e.data || {}).cmd === "ih:getHeight") send();
-  });
-})();
-</script>
