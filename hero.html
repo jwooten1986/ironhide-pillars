@@ -151,4 +151,15 @@
   });
 })();
 </script>
+<script>
+(function(){
+  function post() {
+    const h = document.documentElement.scrollHeight;
+    parent?.postMessage?.({ type: 'ihHeroHeight', height: h }, '*');
+  }
+  window.addEventListener('load', post);
+  window.addEventListener('resize', ()=>{ requestAnimationFrame(post); });
+  new ResizeObserver(post).observe(document.body);
+})();
+</script>
 <!-- =================== /Ironhide • HERO =================== -->
