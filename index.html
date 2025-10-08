@@ -371,3 +371,20 @@
 </script>
 </body>
 </html>
+
+<!-- === Height Reporter: PILLARS === -->
+<script>
+(() => {
+  const ID = "ihPillars";
+  function send() {
+    const h = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+    parent.postMessage({ height: h, id: ID }, "*");
+  }
+  window.addEventListener("load", send);
+  new ResizeObserver(send).observe(document.documentElement);
+  window.addEventListener("resize", () => requestAnimationFrame(send));
+  window.addEventListener("message", (e) => {
+    if ((e.data || {}).cmd === "ih:getHeight") send();
+  });
+})();
+</script>
