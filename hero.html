@@ -1,4 +1,4 @@
-<!-- ======================= Ironhide • HERO ======================= -->
+<!-- ======================= Ironhide • HERO (no big CTA) ======================= -->
 <style>
   :root{
     --ink:#eaf1ff; --mut:rgba(234,241,255,.82);
@@ -15,7 +15,7 @@
     color:var(--ink);
   }
 
-  /* the tasteful “white” lift at bottom-right */
+  /* tasteful white lift bottom-right */
   .ih-hero::after{
     content:"";
     position:absolute; right:-8%; bottom:-12%;
@@ -23,49 +23,31 @@
     background:
       radial-gradient(55% 55% at 30% 30%, rgba(255,255,255,.14), transparent 60%),
       radial-gradient(40% 40% at 72% 76%, rgba(255,255,255,.10), transparent 60%);
-    filter:blur(22px);
-    pointer-events:none;
-    mix-blend-mode:screen;
+    filter:blur(22px); mix-blend-mode:screen; pointer-events:none;
   }
 
-  .ih-hero__wrap{
-    max-width:1180px; margin:0 auto;
-    padding: clamp(28px,5vw,64px) clamp(16px,3vw,32px);
-  }
-
-  .ih-hero__grid{
-    display:grid; gap:28px;
-    grid-template-columns:1.1fr .9fr;
-    align-items:center;
-  }
+  .ih-hero__wrap{ max-width:1180px; margin:0 auto; padding: clamp(28px,5vw,64px) clamp(16px,3vw,32px) }
+  .ih-hero__grid{ display:grid; gap:28px; grid-template-columns:1.1fr .9fr; align-items:center }
   @media (max-width:980px){ .ih-hero__grid{ grid-template-columns:1fr } }
 
-  /* LEFT: copy */
   .ih-eyebrow{
     display:inline-block; padding:6px 12px; border-radius:999px;
     background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.22);
-    font-weight:800; font-size:.9rem; letter-spacing:.02em;
-    margin-bottom:8px;
+    font-weight:800; font-size:.9rem; letter-spacing:.02em; margin-bottom:8px;
   }
-  .ih-hero h1{
-    margin:0 0 8px; font-weight:900; letter-spacing:-.02em;
-    font-size: clamp(34px, 7.2vw, 84px); line-height:1.02;
-  }
-  .ih-hero .sub{
-    margin:0 0 16px; color:var(--mut);
-    font-size: clamp(16px,1.4vw,20px); max-width:56ch;
-  }
+  .ih-hero h1{ margin:0 0 8px; font-weight:900; letter-spacing:-.02em; font-size: clamp(34px, 7.2vw, 84px); line-height:1.02 }
+  .ih-hero .sub{ margin:0 0 16px; color:var(--mut); font-size: clamp(16px,1.4vw,20px); max-width:56ch }
 
-  /* Service tiles row (replaces S/V/O pills) */
-  .ih-tiles{ display:flex; gap:12px; flex-wrap:wrap; margin:8px 0 14px }
+  /* Service tiles */
+  .ih-tiles{ display:flex; gap:12px; flex-wrap:wrap; margin:8px 0 10px }
   .ih-tile{
     --ring: rgba(34,197,94,.45);
     display:flex; align-items:center; gap:10px;
     padding:11px 14px; border-radius:14px; cursor:pointer;
     background:rgba(255,255,255,.08);
     border:1px solid rgba(255,255,255,.22);
-    font-weight:800; opacity:.95;
-    transition: transform .14s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    font-weight:800; color:#fff; /* force white text */
+    transition: transform .14s, box-shadow .2s, border-color .2s, background .2s;
   }
   .ih-dot{ width:10px; height:10px; border-radius:50%; background:var(--lime); box-shadow:0 0 10px var(--ring) }
   .ih-tile:hover{ transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.25), 0 0 0 3px rgba(34,197,94,.12) inset }
@@ -75,16 +57,21 @@
     box-shadow:0 10px 26px rgba(59,130,246,.26) inset, 0 10px 26px rgba(0,0,0,.28);
   }
 
-  /* dynamic microcopy under tiles */
+  /* microcopy + tiny learn links */
   .ih-micro{ color:var(--mut); font-size:.95rem; min-height:1.5em }
+  .ih-links{ margin-top:6px; display:flex; gap:14px; flex-wrap:wrap }
+  .ih-links a{
+    color:var(--ink); opacity:.9; text-decoration:none; font-weight:700; font-size:.92rem;
+    background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.2); padding:6px 10px; border-radius:10px;
+  }
+  .ih-links a:hover{ background:rgba(255,255,255,.16) }
 
-  /* CTA buttons */
-  .ih-cta{ display:flex; gap:12px; flex-wrap:wrap; margin-top:14px }
-  .ih-btn{ padding:12px 16px; border-radius:12px; font-weight:800; text-decoration:none; color:var(--ink);
-           border:1px solid rgba(255,255,255,.28); background:rgba(255,255,255,.10) }
-  .ih-btn--p{ background:color-mix(in oklab, var(--brand) 30%, transparent); border-color:rgba(59,130,246,.6) }
+  /* subtle scroll cue */
+  .ih-cue{ margin-top:18px; font-size:.9rem; color:var(--mut) }
+  .ih-cue span{ display:inline-block; transform:translateY(2px); animation:float 1.4s ease-in-out infinite }
+  @keyframes float{ 0%,100%{ transform:translateY(2px) } 50%{ transform:translateY(6px) } }
 
-  /* RIGHT: media panel */
+  /* Right media */
   .ih-media{
     position:relative; border-radius:22px; overflow:hidden;
     background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
@@ -113,7 +100,7 @@
         <h1>Turning data<br>into decisions.</h1>
         <p class="sub">Dashboards, automations, and reporting your whole team can use—fast.</p>
 
-        <!-- Service tiles (Green-light, intentional) -->
+        <!-- Service tiles -->
         <div class="ih-tiles" role="tablist" aria-label="Service options">
           <button class="ih-tile is-active" data-key="sprint" role="tab" aria-selected="true">
             <span class="ih-dot"></span> 10–14 day Sprints
@@ -123,30 +110,24 @@
           </button>
         </div>
 
-        <!-- Microcopy swaps based on selection -->
         <div class="ih-micro" id="ihServiceLine">
           Ship the first meaningful win in two weeks—then keep what works.
         </div>
-
-        <!-- CTAs (re-use your Services CTA style) -->
-        <div class="ih-cta">
-          <a class="ih-btn ih-btn--p" href="/how-it-works">Start the Sprint</a>
-          <a class="ih-btn" href="/mini-projects">Try a Mini-Project</a>
+        <div class="ih-links">
+          <a href="/how-it-works#sprints">What’s a Sprint?</a>
+          <a href="/mini-projects">What’s a Mini-Project?</a>
         </div>
+
+        <div class="ih-cue">Scroll to see how it works <span>▾</span></div>
       </div>
 
-      <!-- RIGHT: Vimeo panel (or static image fallback) -->
+      <!-- RIGHT: Vimeo panel -->
       <div class="ih-media" aria-label="Hero media">
-        <!-- 1) Vimeo: replace VIDEO_ID below (keep params) -->
+        <!-- Your video @ 9.025s -->
         <iframe
-          src="https://player.vimeo.com/video/VIDEO_ID?autoplay=1&muted=1&loop=1&background=1&playsinline=1&byline=0&title=0&portrait=0&dnt=1"
+          src="https://player.vimeo.com/video/1116472974#t=9.025?autoplay=1&muted=1&loop=1&background=1&playsinline=1&byline=0&title=0&portrait=0&dnt=1"
           allow="autoplay; fullscreen; picture-in-picture" title="Ironhide intro">
         </iframe>
-
-        <!-- 2) Optional fallback poster (remove if not needed)
-        <img src="/assets/hero-poster.jpg" alt="" aria-hidden="true">
-        -->
-
         <div class="scrim" aria-hidden="true"></div>
       </div>
     </div>
@@ -155,20 +136,17 @@
 
 <script>
 (() => {
-  // microcopy for tiles
   const line = document.getElementById('ihServiceLine');
   const copy = {
     sprint: "Ship the first meaningful win in two weeks—then keep what works.",
     mini:   "Pick a scoped win in days. If you upgrade, your spend becomes credit."
   };
-
   const tiles = Array.from(document.querySelectorAll('.ih-tile'));
   tiles.forEach(t => {
     t.addEventListener('click', () => {
       tiles.forEach(x => { x.classList.remove('is-active'); x.setAttribute('aria-selected','false'); });
       t.classList.add('is-active'); t.setAttribute('aria-selected','true');
-      const key = t.getAttribute('data-key');
-      line.textContent = copy[key] || "";
+      line.textContent = copy[t.getAttribute('data-key')] || "";
     });
   });
 })();
