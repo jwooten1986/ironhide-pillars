@@ -350,6 +350,16 @@
   window.addEventListener('load', resizeToFit);
   window.addEventListener('resize', resizeToFit);
 
+  (function(){
+  function post() {
+    const h = document.documentElement.scrollHeight;
+    parent?.postMessage?.({ type: 'ihPillarsHeight', height: h }, '*');
+  }
+  window.addEventListener('load', post);
+  window.addEventListener('resize', ()=>{ requestAnimationFrame(post); });
+  new ResizeObserver(post).observe(document.body);
+})();
+
   // init
   requestAnimationFrame(()=>{
     cards.forEach((c,idx)=>c.classList.toggle('show', idx===0));
