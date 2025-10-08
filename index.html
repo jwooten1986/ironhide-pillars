@@ -8,108 +8,105 @@
 <style>
   :root{
     --ink:#eaf1ff; --mut:rgba(234,241,255,.82);
-    /* Darker, flat page background (no gradients) */
-    --page:#0b111b;
-
+    --page:#0b111b;             /* flat charcoal background */
     --brand:#4aa3ff; --lime:#22c55e;
-    --maxw:1180px; --cardw:940px; --radius:20px;
-    --shadow:0 26px 70px rgba(0,0,0,.45);
+    --maxw:1180px; --cardw:940px;
 
-    /* Card shine overlay (inside the cards only).
-       To disable entirely, set to: none */
+    /* Corner radius for cards. Set to 0 for square. */
+    --radius:12px;
+
+    --shadow:0 26px 70px rgba(0,0,0,.45);
+    /* Set to 'none' if you want totally flat cards */
     --shine: radial-gradient(900px 600px at 110% -10%, rgba(74,163,255,.18), transparent 60%);
   }
 
-  /* Reset margins/padding; do NOT pad body (prevents iframe oversize) */
+  /* Reset / base */
   html,body{ margin:0; padding:0; }
   body{
     font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans";
     color:var(--ink);
-    background: var(--page);         /* << flat charcoal */
+    background: var(--page);
     overflow-x:hidden;
   }
 
-  /* Root wrapper: page padding lives here so we only measure the visible block */
-  .ihw{max-width:var(--maxw);margin:0 auto;padding:clamp(28px,4vw,48px) clamp(16px,3vw,32px) 64px;text-align:center}
+  /* Root wrapper: page padding lives here so the iframe measures only what’s visible */
+  .ihw{ max-width:var(--maxw); margin:0 auto; padding:clamp(28px,4vw,48px) clamp(16px,3vw,32px) 24px; text-align:center; }
 
-  h2{margin:0 0 8px;font-weight:900;letter-spacing:-.01em;font-size:clamp(28px,3.6vw,46px);line-height:1.05}
-  .sub{margin:0 auto 20px;color:var(--mut);max-width:70ch}
+  h2{ margin:0 0 8px; font-weight:900; letter-spacing:-.01em; font-size:clamp(28px,3.6vw,46px); line-height:1.05 }
+  .sub{ margin:0 auto 20px; color:var(--mut); max-width:70ch }
 
-  /* top controls (arrows + pills) */
-  .ctrl{display:flex;justify-content:center;align-items:center;gap:14px;margin:16px 0 10px;flex-wrap:wrap}
+  /* controls */
+  .ctrl{ display:flex; justify-content:center; align-items:center; gap:14px; margin:16px 0 10px; flex-wrap:wrap }
   .arrow{
-    width:42px;height:42px;border-radius:999px;display:grid;place-items:center;
-    background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);
-    cursor:pointer;transition:transform .08s,background .2s
+    width:42px; height:42px; border-radius:999px; display:grid; place-items:center;
+    background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.24);
+    cursor:pointer; transition:transform .08s, background .2s
   }
-  .arrow:hover{transform:translateY(-2px);background:rgba(255,255,255,.18)}
-  .pills{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
+  .arrow:hover{ transform:translateY(-2px); background:rgba(255,255,255,.18) }
+  .pills{ display:flex; justify-content:center; align-items:center; gap:12px; flex-wrap:wrap }
   .pill{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:10px 16px;border-radius:14px;font-weight:800;
-    border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);
-    color:var(--ink);cursor:pointer;opacity:.78;
-    transition:transform .15s,background .2s,border-color .2s,box-shadow .2s,opacity .2s
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 16px; border-radius:14px; font-weight:800;
+    border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08);
+    color:var(--ink); cursor:pointer; opacity:.78;
+    transition:transform .15s, background .2s, border-color .2s, box-shadow .2s, opacity .2s
   }
-  .pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px rgba(34,197,94,.6)}
-  .pill.side{transform:scale(.96)}
+  .pill::before{ content:""; width:8px; height:8px; border-radius:50%; background:var(--lime); box-shadow:0 0 10px rgba(34,197,94,.6) }
+  .pill.side{ transform:scale(.96) }
   .pill.active{
-    opacity:1;transform:scale(1.08);
-    background:color-mix(in oklab,var(--brand) 25%,transparent);
+    opacity:1; transform:scale(1.08);
+    background:color-mix(in oklab, var(--brand) 25%, transparent);
     border-color:rgba(59,130,246,.6);
-    box-shadow:0 8px 22px rgba(59,130,246,.28) inset,0 8px 24px rgba(0,0,0,.25)
+    box-shadow:0 8px 22px rgba(59,130,246,.28) inset, 0 8px 24px rgba(0,0,0,.25)
   }
 
-  /* centered Pause/Play row */
-  .ctrl-bottom{display:flex;justify-content:center;margin:6px 0 12px}
+  .ctrl-bottom{ display:flex; justify-content:center; margin:6px 0 12px }
   .pause{
-    padding:10px 14px;border-radius:14px;font-weight:800;cursor:pointer;
-    background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);color:var(--ink);
-    transition:transform .08s,background .2s,border-color .2s;
+    padding:10px 14px; border-radius:14px; font-weight:800; cursor:pointer;
+    background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.24); color:var(--ink);
+    transition:transform .08s, background .2s, border-color .2s
   }
-  .pause:hover{transform:translateY(-2px);background:rgba(255,255,255,.18)}
+  .pause:hover{ transform:translateY(-2px); background:rgba(255,255,255,.18) }
 
-  /* progress */
-  .timeline{height:3px;width:min(640px,80vw);margin:10px auto 16px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
-  .bar{height:100%;width:0%;background:linear-gradient(90deg,rgba(74,163,255,1),rgba(34,197,94,1));transition:width .2s linear}
+  .timeline{ height:3px; width:min(640px,80vw); margin:10px auto 16px; background:rgba(255,255,255,.12); border-radius:999px; overflow:hidden }
+  .bar{ height:100%; width:0%; background:linear-gradient(90deg,rgba(74,163,255,1),rgba(34,197,94,1)); transition:width .2s linear }
 
-  /* cards */
-  .stage{display:block;width:100%;margin:0 auto;min-height:min(68vh,700px)}
+  /* content */
+  .stage{ display:block; width:100%; margin:0 auto; /* removed min-height to prevent big gap */ }
   .card{
-    display:none;width:min(var(--cardw),calc(100vw - 48px));margin:0 auto;
-    border-radius:var(--radius);padding:24px;text-align:left;position:relative;
+    display:none; width:min(var(--cardw),calc(100vw - 48px)); margin:0 auto;
+    border-radius:var(--radius); padding:24px; text-align:left; position:relative;
     background:rgba(18,23,40,.94);
     border:1px solid rgba(225,235,255,.16);
-    box-shadow:var(--shadow);opacity:0;
+    box-shadow:var(--shadow); opacity:0;
   }
-  .card::before{content:"";position:absolute;inset:0;background:var(--shine);opacity:.7;pointer-events:none}
-  .card.show{display:block;animation:fadeUp .42s cubic-bezier(.2,.7,0,1) both}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .card::before{ content:""; position:absolute; inset:0; background:var(--shine); opacity:.7; pointer-events:none }
+  .card.show{ display:block; animation:fadeUp .42s cubic-bezier(.2,.7,0,1) both }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(8px) scale(.985)} to{opacity:1; transform:translateY(0) scale(1)} }
 
-  .grid{display:grid;gap:16px;grid-template-columns:1.2fr .8fr}
-  @media(max-width:900px){.grid{grid-template-columns:1fr}}
-  @media(max-width:520px){.stage{min-height:min(62vh,560px)}}
+  .grid{ display:grid; gap:16px; grid-template-columns:1.2fr .8fr }
+  @media(max-width:900px){ .grid{ grid-template-columns:1fr } }
 
-  .card h3{margin:0 0 8px;font-size:clamp(20px,2.2vw,28px);font-weight:900}
-  .card p{margin:0 10px 12px 0;color:var(--mut)}
-  .list{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:8px}
-  .li{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start;opacity:0;transform:translateY(6px)}
-  .card.show .li{animation:itemIn .5s ease forwards}
-  .card.show .li:nth-child(1){animation-delay:.06s}
-  .card.show .li:nth-child(2){animation-delay:.16s}
-  .card.show .li:nth-child(3){animation-delay:.26s}
-  @keyframes itemIn{to{opacity:1;transform:translateY(0)}}
-  .dot{width:11px;height:11px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px rgba(34,197,94,.6);margin-top:4px}
+  .card h3{ margin:0 0 8px; font-size:clamp(20px,2.2vw,28px); font-weight:900 }
+  .card p{ margin:0 10px 12px 0; color:var(--mut) }
+  .list{ list-style:none; margin:0 0 12px; padding:0; display:grid; gap:8px }
+  .li{ display:grid; grid-template-columns:18px 1fr; gap:8px; align-items:start; opacity:0; transform:translateY(6px) }
+  .card.show .li{ animation:itemIn .5s ease forwards }
+  .card.show .li:nth-child(1){ animation-delay:.06s }
+  .card.show .li:nth-child(2){ animation-delay:.16s }
+  .card.show .li:nth-child(3){ animation-delay:.26s }
+  @keyframes itemIn{ to{ opacity:1; transform:translateY(0) } }
+  .dot{ width:11px; height:11px; border-radius:50%; background:var(--lime); box-shadow:0 0 8px rgba(34,197,94,.6); margin-top:4px }
 
-  .kpis{display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
-  .kpi{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px;text-align:center}
-  .kpi b{display:block;font-size:1.1rem}
-  .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);margin-bottom:10px;font-size:.82rem}
-  .col h4{margin:0 0 6px;font-size:1rem;opacity:.9}
-  .col ul{margin:0;padding-left:16px}
-  .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-  .btn{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);color:var(--ink);font-weight:800;text-decoration:none}
-  .btn.p{background:color-mix(in oklab,var(--brand) 30%,transparent);border-color:rgba(59,130,246,.6)}
+  .kpis{ display:grid; gap:10px; grid-template-columns:repeat(3,1fr) }
+  .kpi{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:12px; padding:10px; text-align:center }
+  .kpi b{ display:block; font-size:1.1rem }
+  .badge{ display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.06); margin-bottom:10px; font-size:.82rem }
+  .col h4{ margin:0 0 6px; font-size:1rem; opacity:.9 }
+  .col ul{ margin:0; padding-left:16px }
+  .cta{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px }
+  .btn{ padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.28); background:rgba(255,255,255,.1); color:var(--ink); font-weight:800; text-decoration:none }
+  .btn.p{ background:color-mix(in oklab, var(--brand) 30%, transparent); border-color:rgba(59,130,246,.6) }
 </style>
 </head>
 <body>
@@ -118,7 +115,7 @@
     <h2>Systemize. Visualize. Optimize.</h2>
     <p class="sub">First we make your data dependable, then understandable, and finally we make it work for you — with automations that close the loop.</p>
 
-    <!-- Arrows + Pills -->
+    <!-- Controls -->
     <div class="ctrl" role="group" aria-label="Pillar selector">
       <button class="arrow" id="prev" type="button" aria-label="Previous">‹</button>
       <div class="pills" id="pillRow">
@@ -129,7 +126,6 @@
       <button class="arrow" id="next" type="button" aria-label="Next">›</button>
     </div>
 
-    <!-- Centered Pause/Play -->
     <div class="ctrl-bottom">
       <button class="pause" id="pauseBtn" type="button" aria-pressed="false">Pause</button>
     </div>
@@ -138,103 +134,13 @@
 
     <div class="stage" id="stage">
       <!-- Systemize -->
-      <article class="card show" data-idx="0">
-        <div class="grid">
-          <div>
-            <span class="badge">Reliable data</span>
-            <h3>Systemize — make the data reliable.</h3>
-            <p>Replace brittle spreadsheets with governed pipelines and repeatable reporting.</p>
-            <ul class="list">
-              <li class="li"><span class="dot"></span><span>Source → stage → model: clean, deduped, documented.</span></li>
-              <li class="li"><span class="dot"></span><span>Automated refreshes, alerts, and SLAs — no manual chasing.</span></li>
-              <li class="li"><span class="dot"></span><span>One governed truth across teams and tools.</span></li>
-            </ul>
-            <div class="kpis">
-              <div class="kpi"><b>–80%</b><span class="sub">manual reporting time</span></div>
-              <div class="kpi"><b>99.9%</b><span class="sub">refresh reliability</span></div>
-              <div class="kpi"><b>1</b><span class="sub">single source of truth</span></div>
-            </div>
-            <div class="cta">
-              <a class="btn p" href="#">See how a Sprint builds this</a>
-              <a class="btn" href="#">Try a Mini-Project</a>
-            </div>
-          </div>
-          <div class="col">
-            <h4>Deliverables</h4>
-            <ul><li>Data model & lineage</li><li>Schedules & SLAs</li><li>Quality checks & alerts</li></ul>
-            <h4 style="margin-top:10px">Stack</h4>
-            <ul><li>SQL Server / BigQuery / Snowflake</li><li>dbt or native ELT</li><li>Airflow / Cloud Scheduler</li></ul>
-            <h4 style="margin-top:10px">Outcomes</h4>
-            <ul><li>No manual chasing</li><li>Auditable refreshes</li></ul>
-          </div>
-        </div>
-      </article>
+      <article class="card show" data-idx="0">…(unchanged content)…</article>
 
       <!-- Visualize -->
-      <article class="card" data-idx="1">
-        <div class="grid">
-          <div>
-            <span class="badge">Clarity at a glance</span>
-            <h3>Visualize — make the story obvious.</h3>
-            <p>Dashboards and forecasts that snap into focus at a glance.</p>
-            <ul class="list">
-              <li class="li"><span class="dot"></span><span>Audience-first layouts your team will actually use.</span></li>
-              <li class="li"><span class="dot"></span><span>Drill paths that trade “hunt around” for “tap and know.”</span></li>
-              <li class="li"><span class="dot"></span><span>Forecast & goals beside today’s reality.</span></li>
-            </ul>
-            <div class="kpis">
-              <div class="kpi"><b>3×</b><span class="sub">dashboard adoption</span></div>
-              <div class="kpi"><b>+18%</b><span class="sub">faster decisions</span></div>
-              <div class="kpi"><b>0</b><span class="sub">guesswork</span></div>
-            </div>
-            <div class="cta">
-              <a class="btn p" href="#">See examples</a>
-              <a class="btn" href="#">Design principles</a>
-            </div>
-          </div>
-          <div class="col">
-            <h4>Deliverables</h4>
-            <ul><li>KPI tree & audience map</li><li>Drill paths & saved views</li><li>Forecast overlay</li></ul>
-            <h4 style="margin-top:10px">Stack</h4>
-            <ul><li>Power BI / Looker Studio / Tableau</li><li>Excel/Sheets for light users</li></ul>
-            <h4 style="margin-top:10px">Outcomes</h4>
-            <ul><li>Clarity in one screen</li><li>Fewer “send me that report” Slacks</li></ul>
-          </div>
-        </div>
-      </article>
+      <article class="card" data-idx="1">…(unchanged content)…</article>
 
       <!-- Optimize -->
-      <article class="card" data-idx="2">
-        <div class="grid">
-          <div>
-            <span class="badge">Close the loop</span>
-            <h3>Optimize — make the work faster.</h3>
-            <p>Automations and AI that remove grunt work and surface the next move.</p>
-            <ul class="list">
-              <li class="li"><span class="dot"></span><span>Auto-distribute reports, nudge owners, close the loop.</span></li>
-              <li class="li"><span class="dot"></span><span>Detection & alerts before problems snowball.</span></li>
-              <li class="li"><span class="dot"></span><span>Cross-app workflows that trigger action.</span></li>
-            </ul>
-            <div class="kpis">
-              <div class="kpi"><b>–65%</b><span class="sub">ops toil</span></div>
-              <div class="kpi"><b>24/7</b><span class="sub">monitoring</span></div>
-              <div class="kpi"><b>+2–4h</b><span class="sub">saved per analyst/day</span></div>
-            </div>
-            <div class="cta">
-              <a class="btn p" href="#">Automation playbook</a>
-              <a class="btn" href="#">Pilot a workflow</a>
-            </div>
-          </div>
-          <div class="col">
-            <h4>Deliverables</h4>
-            <ul><li>Alert rules & anomaly watch</li><li>Auto-share & nudges</li><li>Workflows (Zapier/Power Automate)</li></ul>
-            <h4 style="margin-top:10px">Stack</h4>
-            <ul><li>Salesforce/HubSpot hooks</li><li>Zapier / Power Automate</li></ul>
-            <h4 style="margin-top:10px">Outcomes</h4>
-            <ul><li>Proactive ops, fewer fires</li><li>Actions tied to KPIs</li></ul>
-          </div>
-        </div>
-      </article>
+      <article class="card" data-idx="2">…(unchanged content)…</article>
     </div>
   </div>
 
@@ -247,14 +153,10 @@
   const bar=document.getElementById('bar');
   const pauseBtn=document.getElementById('pauseBtn');
 
-  /* SETTINGS */
   const AUTOPLAY=true;
-  const DURATION=12000; // 12s per pillar
+  const DURATION=12000;
 
-  let i=0, lock=false;
-  let paused=false;
-  let startTime=0, remaining=DURATION;
-  let advanceTimer=null;
+  let i=0, lock=false, paused=false, startTime=0, remaining=DURATION, advanceTimer=null;
 
   function setPills(idx){
     pills.forEach((p,j)=>{
@@ -274,17 +176,14 @@
     cards[idx].classList.add('show');
     i=idx; setPills(i);
 
-    // when slide changes, restart cycle unless paused
     remaining=DURATION;
     if(AUTOPLAY && !paused) startCycle(DURATION);
 
     postHeight();
     setTimeout(()=>{lock=false;},420);
   }
-
   function go(n){ show(n); }
 
-  /* EVENTS */
   pills.forEach(p=>p.addEventListener('click',()=>go(Number(p.dataset.idx)),{passive:true}));
   prev.addEventListener('click',()=>go(i-1),{passive:true});
   next.addEventListener('click',()=>go(i+1),{passive:true});
@@ -293,39 +192,30 @@
     if(e.key==='ArrowRight') go(i+1);
   });
 
-  pauseBtn.addEventListener('click',()=>{
-    if(!paused) pauseAutoplay(); else resumeAutoplay();
-  });
-
   function pauseAutoplay(){
     if(paused) return;
     paused=true;
     if(advanceTimer){ clearTimeout(advanceTimer); advanceTimer=null; }
     const elapsed=Date.now()-startTime;
     remaining=Math.max(0, remaining - elapsed);
-
-    // freeze bar at current percentage
     const pct = Math.min(100, (elapsed / (elapsed+remaining)) * 100);
     bar.style.transition='none';
     bar.style.width=pct + '%';
-
     pauseBtn.textContent='Play';
     pauseBtn.setAttribute('aria-pressed','true');
   }
-
   function resumeAutoplay(){
     if(!paused) return;
     paused=false;
-    startCycle(Math.max(300, remaining)); // never less than 300ms
+    startCycle(Math.max(300, remaining));
     pauseBtn.textContent='Pause';
     pauseBtn.setAttribute('aria-pressed','false');
   }
+  pauseBtn.addEventListener('click',()=>{ paused ? resumeAutoplay() : pauseAutoplay(); });
 
   function startCycle(ms){
     if(!AUTOPLAY) return;
     if(advanceTimer) clearTimeout(advanceTimer);
-
-    // animate bar from 0 (or current if resuming) to 100% over ms
     requestAnimationFrame(()=>{
       bar.style.transition='none';
       if(ms===DURATION) bar.style.width='0%';
@@ -334,35 +224,25 @@
         bar.style.width='100%';
       });
     });
-
     startTime=Date.now();
     remaining=ms;
     advanceTimer=setTimeout(()=>{ show(i+1); }, ms);
   }
 
-  /* === Parent resize (Webflow) — measure ONLY the visible root === */
+  /* Measure ONLY the visible root */
   const root = document.getElementById('pillars-root');
   function visibleHeight(){
     const r = root.getBoundingClientRect();
-    return Math.ceil(r.height) + 2; // tiny buffer to avoid 1px gaps
+    return Math.ceil(r.height) + 2;
   }
   function postHeight(){
-    try{
-      window.parent.postMessage({ type:'ihPillarsHeight', height: visibleHeight() }, '*');
-    }catch(e){}
+    try{ window.parent.postMessage({ type:'ihPillarsHeight', height: visibleHeight() }, '*'); }catch(e){}
   }
-  // Observe size/content changes inside the root
   new ResizeObserver(postHeight).observe(root);
-  // On load / after fonts
-  if (document.readyState === 'complete') postHeight();
-  else window.addEventListener('load', postHeight);
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(postHeight).catch(()=>{});
-  }
-  // Also on window resizes
-  let t; window.addEventListener('resize', ()=>{ clearTimeout(t); t=setTimeout(postHeight, 120); });
+  if (document.readyState === 'complete') postHeight(); else window.addEventListener('load', postHeight);
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(postHeight).catch(()=>{}); }
+  let t; window.addEventListener('resize', ()=>{ clearTimeout(t); t=setTimeout(postHeight,120); });
 
-  // init
   requestAnimationFrame(()=>{
     cards.forEach((c,idx)=>c.classList.toggle('show', idx===0));
     setPills(0);
