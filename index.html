@@ -87,15 +87,13 @@
   .timeline.pulsing .bar{animation:pulse 1.6s ease-in-out infinite}
   @keyframes pulse{0%,100%{box-shadow:0 0 0 rgba(74,163,255,0)}50%{box-shadow:0 0 18px rgba(74,163,255,.45)}}
 
-  /* cards container — height locked via JS */
-  .stage{
-    display:block;
-    width:100%;
-    margin:0 auto;
-    min-height:min(68vh,700px); /* baseline on small viewports */
-    height:auto;                /* JS sets exact height */
-    transition:height .35s ease;
-  }
+.stage{
+  display:block;
+  width:100%;
+  margin:0 auto;
+  min-height:min(68vh,700px);
+  /* no fixed height, no transition */
+}
 
   /* cards */
   .card{
@@ -295,50 +293,6 @@
     });
   }
 
-  // ===== HEIGHT LOCK (no vertical jump) =====
-  function measureCardHeight(card){
-    const prev = {
-      display: card.style.display,
-      visibility: card.style.visibility,
-      position: card.style.position,
-      inset: card.style.inset
-    };
-    const wasHidden = getComputedStyle(card).display === 'none';
-    if (wasHidden){
-      card.style.display='block';
-      card.style.visibility='hidden';
-      card.style.position='absolute';
-      card.style.inset='0';
-    }
-    const h = card.offsetHeight;
-    if (wasHidden){
-      card.style.display   = prev.display;
-      card.style.visibility= prev.visibility;
-      card.style.position  = prev.position;
-      card.style.inset     = prev.inset;
-    }
-    return h;
-  }
-  function computeTallest(){
-    let max=0;
-    cards.forEach(c=>{ max=Math.max(max, measureCardHeight(c)); });
-    const baseline=Math.min(window.innerHeight*0.68, 700);
-    return Math.max(max, baseline);
-  }
-  function lockStage(){
-    stage.style.height = computeTallest() + 'px';
-  }
-  window.addEventListener('resize', () => {
-    clearTimeout(window.__ihResizeDebounce);
-    window.__ihResizeDebounce = setTimeout(lockStage, 120);
-  });
-
-  function show(idx){
-    if(lock) return;
-    const target=(idx+cards.length)%cards.length;
-    if(target===i) return;
-    lock=true;
-
     // exit slide for current
     const dir = target>i ? 'left' : 'right';
     cards[i].classList.remove('show');
@@ -351,7 +305,7 @@
     setTimeout(()=>{ cards.forEach(c=>c.classList.remove('leave-left','leave-right')); }, 420);
 
     i=target; setPills(i);
-    lockStage(); // <— keep stage height steady
+  
 
     // restart progress unless paused
     remaining=DURATION;
@@ -431,7 +385,6 @@
   requestAnimationFrame(()=>{
     cards.forEach((c,idx)=>c.classList.toggle('show', idx===0));
     setPills(0);
-    lockStage();                 // <— compute tallest at load
     if(AUTOPLAY) startCycle(DURATION);
     resizeToFit();
   });
