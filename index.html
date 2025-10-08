@@ -85,13 +85,19 @@
   .timeline{height:3px;width:min(640px,80vw);margin:6px auto 16px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
   .bar{height:100%;width:0%;background:linear-gradient(90deg,rgba(74,163,255,1),rgba(34,197,94,1));transition:width .2s linear}
   .timeline.pulsing .bar{animation:pulse 1.6s ease-in-out infinite}
-  @keyframes pulse{
-    0%,100%{box-shadow:0 0 0 rgba(74,163,255,0)}
-    50%{box-shadow:0 0 18px rgba(74,163,255,.45)}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 rgba(74,163,255,0)}50%{box-shadow:0 0 18px rgba(74,163,255,.45)}}
+
+  /* cards container — height locked via JS */
+  .stage{
+    display:block;
+    width:100%;
+    margin:0 auto;
+    min-height:min(68vh,700px); /* baseline on small viewports */
+    height:auto;                /* JS sets exact height */
+    transition:height .35s ease;
   }
 
   /* cards */
-  .stage{display:block;width:100%;margin:0 auto;min-height:min(68vh,700px)}
   .card{
     display:none;width:min(var(--cardw),calc(100vw - 48px));margin:0 auto;
     border-radius:var(--radius);padding:24px;text-align:left;position:relative;
@@ -270,6 +276,7 @@
   const bar=document.getElementById('bar');
   const timeline=document.getElementById('timeline');
   const pauseBtn=document.getElementById('pauseBtn');
+  const stage=document.getElementById('stage');
 
   /* SETTINGS */
   const AUTOPLAY=true;
@@ -287,6 +294,44 @@
       p.setAttribute('aria-selected', j===idx ? 'true' : 'false');
     });
   }
+
+  // ===== HEIGHT LOCK (no vertical jump) =====
+  function measureCardHeight(card){
+    const prev = {
+      display: card.style.display,
+      visibility: card.style.visibility,
+      position: card.style.position,
+      inset: card.style.inset
+    };
+    const wasHidden = getComputedStyle(card).display === 'none';
+    if (wasHidden){
+      card.style.display='block';
+      card.style.visibility='hidden';
+      card.style.position='absolute';
+      card.style.inset='0';
+    }
+    const h = card.offsetHeight;
+    if (wasHidden){
+      card.style.display   = prev.display;
+      card.style.visibility= prev.visibility;
+      card.style.position  = prev.position;
+      card.style.inset     = prev.inset;
+    }
+    return h;
+  }
+  function computeTallest(){
+    let max=0;
+    cards.forEach(c=>{ max=Math.max(max, measureCardHeight(c)); });
+    const baseline=Math.min(window.innerHeight*0.68, 700);
+    return Math.max(max, baseline);
+  }
+  function lockStage(){
+    stage.style.height = computeTallest() + 'px';
+  }
+  window.addEventListener('resize', () => {
+    clearTimeout(window.__ihResizeDebounce);
+    window.__ihResizeDebounce = setTimeout(lockStage, 120);
+  });
 
   function show(idx){
     if(lock) return;
@@ -306,6 +351,7 @@
     setTimeout(()=>{ cards.forEach(c=>c.classList.remove('leave-left','leave-right')); }, 420);
 
     i=target; setPills(i);
+    lockStage(); // <— keep stage height steady
 
     // restart progress unless paused
     remaining=DURATION;
@@ -337,7 +383,6 @@
     const elapsed=Date.now()-startTime;
     remaining=Math.max(0, remaining - elapsed);
 
-    // freeze bar at current percent
     const pct=Math.min(100,(elapsed/(elapsed+remaining))*100);
     bar.style.transition='none';
     bar.style.width=pct+'%';
@@ -358,7 +403,6 @@
     if(!AUTOPLAY) return;
     if(advanceTimer) clearTimeout(advanceTimer);
 
-    // progress bar animation
     requestAnimationFrame(()=>{
       bar.style.transition='none';
       if(ms===DURATION) bar.style.width='0%';
@@ -374,7 +418,7 @@
     advanceTimer=setTimeout(()=>{ show(i+1); }, ms);
   }
 
-  /* Resize for iframe parent */
+  /* Resize for iframe parent (Webflow embed) */
   function resizeToFit(){
     const h=document.documentElement.scrollHeight;
     parent?.postMessage?.({type:'ihPillarsHeight', height:h}, '*');
@@ -387,6 +431,7 @@
   requestAnimationFrame(()=>{
     cards.forEach((c,idx)=>c.classList.toggle('show', idx===0));
     setPills(0);
+    lockStage();                 // <— compute tallest at load
     if(AUTOPLAY) startCycle(DURATION);
     resizeToFit();
   });
