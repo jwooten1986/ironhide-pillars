@@ -249,11 +249,12 @@
   const next  = document.getElementById('next');
   const bar   = document.getElementById('bar');
   const wrap  = document.getElementById('ihwrap');
-  const STOP_AFTER_INTERACT = true;
+  
 
   let i = 0, lock = false, timer = null, progressTimer = null;
   const AUTOPLAY = true;
   const DURATION = 5200;
+  const STOP_AFTER_INTERACT = true;
 
   function setPills(idx){
     pills.forEach((p,j)=>{
