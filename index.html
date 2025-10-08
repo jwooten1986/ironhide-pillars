@@ -24,24 +24,21 @@
     padding:clamp(28px,4vw,48px) 0 64px;
     overflow-x:hidden;
   }
+  /* soft ambient beam */
   body::before{
     content:"";position:fixed;inset:-20% -20% -20% -20%;
     background:radial-gradient(50% 40% at 30% -10%, rgba(74,163,255,.10), transparent 70%);
     filter:blur(20px);mix-blend-mode:screen;pointer-events:none;
     animation:drift 18s linear infinite;
   }
-  @keyframes drift{
-    0%{transform:translate3d(-2%,0,0)}
-    50%{transform:translate3d(2%,1%,0)}
-    100%{transform:translate3d(-2%,0,0)}
-  }
+  @keyframes drift{0%{transform:translate3d(-2%,0,0)}50%{transform:translate3d(2%,1%,0)}100%{transform:translate3d(-2%,0,0)}}
 
   .ihw{max-width:var(--maxw);margin:0 auto;padding:0 clamp(16px,3vw,32px);text-align:center}
   h2{margin:0 0 8px;font-weight:900;letter-spacing:-.01em;font-size:clamp(28px,3.6vw,46px);line-height:1.05}
   .sub{margin:0 auto 20px;color:var(--mut);max-width:70ch}
 
-  /* Controls */
-  .ctrl{display:flex;justify-content:center;align-items:center;gap:14px;margin:16px 0 12px;flex-wrap:wrap}
+  /* top controls (arrows + pills) */
+  .ctrl{display:flex;justify-content:center;align-items:center;gap:14px;margin:16px 0 10px;flex-wrap:wrap}
   .arrow{
     width:42px;height:42px;border-radius:999px;display:grid;place-items:center;
     background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);
@@ -65,7 +62,8 @@
     box-shadow:0 8px 22px rgba(59,130,246,.28) inset,0 8px 24px rgba(0,0,0,.25)
   }
 
-  /* Pause button */
+  /* centered Pause/Play row */
+  .ctrl-bottom{display:flex;justify-content:center;margin:6px 0 12px}
   .pause{
     padding:10px 14px;border-radius:14px;font-weight:800;cursor:pointer;
     background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);color:var(--ink);
@@ -73,24 +71,20 @@
   }
   .pause:hover{transform:translateY(-2px);background:rgba(255,255,255,.18)}
 
-  /* Progress bar */
+  /* progress */
   .timeline{height:3px;width:min(640px,80vw);margin:10px auto 16px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden}
   .bar{height:100%;width:0%;background:linear-gradient(90deg,rgba(74,163,255,1),rgba(34,197,94,1));transition:width .2s linear}
 
-  /* Stage & Card */
+  /* cards */
   .stage{display:block;width:100%;margin:0 auto;min-height:min(68vh,700px)}
   .card{
     display:none;width:min(var(--cardw),calc(100vw - 48px));margin:0 auto;
     border-radius:var(--radius);padding:24px;text-align:left;position:relative;
     background:rgba(18,23,40,.94);
     border:1px solid rgba(225,235,255,.16);
-    box-shadow:var(--shadow);
-    opacity:0;
+    box-shadow:var(--shadow);opacity:0;
   }
-  .card::before{
-    content:"";position:absolute;inset:0;background:var(--shine);
-    opacity:.8;pointer-events:none;
-  }
+  .card::before{content:"";position:absolute;inset:0;background:var(--shine);opacity:.8;pointer-events:none}
   .card.show{display:block;animation:fadeUp .42s cubic-bezier(.2,.7,0,1) both}
   @keyframes fadeUp{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
 
@@ -100,7 +94,6 @@
 
   .card h3{margin:0 0 8px;font-size:clamp(20px,2.2vw,28px);font-weight:900}
   .card p{margin:0 10px 12px 0;color:var(--mut)}
-
   .list{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:8px}
   .li{display:grid;grid-template-columns:18px 1fr;gap:8px;align-items:start;opacity:0;transform:translateY(6px)}
   .card.show .li{animation:itemIn .5s ease forwards}
@@ -113,7 +106,6 @@
   .kpis{display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
   .kpi{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px;text-align:center}
   .kpi b{display:block;font-size:1.1rem}
-
   .badge{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);margin-bottom:10px;font-size:.82rem}
   .col h4{margin:0 0 6px;font-size:1rem;opacity:.9}
   .col ul{margin:0;padding-left:16px}
@@ -127,6 +119,7 @@
     <h2>Systemize. Visualize. Optimize.</h2>
     <p class="sub">First we make your data dependable, then understandable, and finally we make it work for you — with automations that close the loop.</p>
 
+    <!-- Arrows + Pills -->
     <div class="ctrl" role="group" aria-label="Pillar selector">
       <button class="arrow" id="prev" type="button" aria-label="Previous">‹</button>
       <div class="pills" id="pillRow">
@@ -135,13 +128,16 @@
         <button class="pill side" data-idx="2" id="pill-opt" type="button" aria-selected="false">Optimize</button>
       </div>
       <button class="arrow" id="next" type="button" aria-label="Next">›</button>
-      <button class="pause" id="pauseBtn" type="button" aria-pressed="false" style="margin-left:8px">Pause</button>
+    </div>
+
+    <!-- Centered Pause/Play -->
+    <div class="ctrl-bottom">
+      <button class="pause" id="pauseBtn" type="button" aria-pressed="false">Pause</button>
     </div>
 
     <div class="timeline" aria-hidden="true"><div class="bar" id="bar"></div></div>
 
     <div class="stage" id="stage">
-      <!-- (Cards same as before) -->
       <!-- Systemize -->
       <article class="card show" data-idx="0">
         <div class="grid">
@@ -252,4 +248,116 @@
   const bar=document.getElementById('bar');
   const pauseBtn=document.getElementById('pauseBtn');
 
-  const AUTOP
+  /* SETTINGS */
+  const AUTOPLAY=true;
+  const DURATION=12000; // 12s per pillar
+
+  let i=0, lock=false;
+  let paused=false;
+  let startTime=0, remaining=DURATION;
+  let advanceTimer=null;
+
+  function setPills(idx){
+    pills.forEach((p,j)=>{
+      p.classList.toggle('active', j===idx);
+      p.classList.toggle('side',   j!==idx);
+      p.setAttribute('aria-selected', j===idx ? 'true' : 'false');
+    });
+  }
+
+  function show(idx){
+    if(lock) return;
+    idx=(idx+cards.length)%cards.length;
+    if(idx===i) return;
+    lock=true;
+
+    cards[i].classList.remove('show');
+    cards[idx].classList.add('show');
+    i=idx; setPills(i);
+
+    // when slide changes, restart cycle unless paused
+    remaining=DURATION;
+    if(AUTOPLAY && !paused) startCycle(DURATION);
+
+    resizeToFit();
+    setTimeout(()=>{lock=false;},420);
+  }
+
+  function go(n){ show(n); }
+
+  /* EVENTS */
+  pills.forEach(p=>p.addEventListener('click',()=>go(Number(p.dataset.idx)),{passive:true}));
+  prev.addEventListener('click',()=>go(i-1),{passive:true});
+  next.addEventListener('click',()=>go(i+1),{passive:true});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft') go(i-1);
+    if(e.key==='ArrowRight') go(i+1);
+  });
+
+  pauseBtn.addEventListener('click',()=>{
+    if(!paused) pauseAutoplay(); else resumeAutoplay();
+  });
+
+  function pauseAutoplay(){
+    if(paused) return;
+    paused=true;
+    if(advanceTimer){ clearTimeout(advanceTimer); advanceTimer=null; }
+    const elapsed=Date.now()-startTime;
+    remaining=Math.max(0, remaining - elapsed);
+
+    // freeze bar at current percentage
+    const pct = Math.min(100, (elapsed / (elapsed+remaining)) * 100);
+    bar.style.transition='none';
+    bar.style.width=pct + '%';
+
+    pauseBtn.textContent='Play';
+    pauseBtn.setAttribute('aria-pressed','true');
+  }
+
+  function resumeAutoplay(){
+    if(!paused) return;
+    paused=false;
+    startCycle(Math.max(300, remaining)); // never less than 300ms
+    pauseBtn.textContent='Pause';
+    pauseBtn.setAttribute('aria-pressed','false');
+  }
+
+  function startCycle(ms){
+    if(!AUTOPLAY) return;
+    if(advanceTimer) clearTimeout(advanceTimer);
+
+    // animate bar from 0 (or current if resuming) to 100% over ms
+    requestAnimationFrame(()=>{
+      bar.style.transition='none';
+      if(ms===DURATION) bar.style.width='0%';
+      requestAnimationFrame(()=>{
+        bar.style.transition=`width ${ms}ms linear`;
+        bar.style.width='100%';
+      });
+    });
+
+    startTime=Date.now();
+    remaining=ms;
+    advanceTimer=setTimeout(()=>{ show(i+1); }, ms);
+  }
+
+  /* Resize for iframe parent */
+  function resizeToFit(){
+    const h=document.documentElement.scrollHeight;
+    parent?.postMessage?.({type:'ihPillarsHeight', height:h}, '*');
+  }
+  new ResizeObserver(resizeToFit).observe(document.body);
+  window.addEventListener('load', resizeToFit);
+  window.addEventListener('resize', resizeToFit);
+
+  // init
+  requestAnimationFrame(()=>{
+    cards.forEach((c,idx)=>c.classList.toggle('show', idx===0));
+    setPills(0);
+    if(AUTOPLAY) startCycle(DURATION);
+    resizeToFit();
+  });
+})();
+</script>
+</body>
+</html>
