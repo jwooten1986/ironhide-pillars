@@ -5,10 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Ironhide — Systemize · Visualize · Optimize</title>
 <meta name="color-scheme" content="dark light" />
-
-<!-- Make all relative links resolve on your live domain + break out of the Webflow iframe -->
-<base href="https://www.ironhideanalytics.com/" target="_top">
-
 <style>
   :root{
     --ink:#eaf1ff; --mut:rgba(234,241,255,.82);
@@ -108,28 +104,28 @@
 </style>
 </head>
 <body>
-  <div class="ihw" id="pillars-root">
+  <div class="ihw" id="ihp-root">
     <h2>Systemize. Visualize. Optimize.</h2>
     <p class="sub">First we make your data dependable, then understandable, and finally we make it work for you — with automations that close the loop. Each phase cuts waste, sharpens decisions, and protects your margins.</p>
 
     <!-- Controls -->
     <div class="ctrl" role="group" aria-label="Pillar selector">
-      <button class="arrow" id="prev" type="button" aria-label="Previous">‹</button>
-      <div class="pills" id="pillRow">
-        <button class="pill active" data-idx="0" id="pill-sys" type="button" aria-selected="true">Systemize</button>
-        <button class="pill side" data-idx="1" id="pill-vis" type="button" aria-selected="false">Visualize</button>
-        <button class="pill side" data-idx="2" id="pill-opt" type="button" aria-selected="false">Optimize</button>
+      <button class="arrow" id="ihp-prev" type="button" aria-label="Previous">‹</button>
+      <div class="pills" id="ihp-pillRow">
+        <button class="pill active" data-idx="0" id="ihp-pill-sys" type="button" aria-selected="true">Systemize</button>
+        <button class="pill side" data-idx="1" id="ihp-pill-vis" type="button" aria-selected="false">Visualize</button>
+        <button class="pill side" data-idx="2" id="ihp-pill-opt" type="button" aria-selected="false">Optimize</button>
       </div>
-      <button class="arrow" id="next" type="button" aria-label="Next">›</button>
+      <button class="arrow" id="ihp-next" type="button" aria-label="Next">›</button>
     </div>
 
     <div class="ctrl-bottom">
-      <button class="pause" id="pauseBtn" type="button" aria-pressed="false">Pause</button>
+      <button class="pause" id="ihp-pauseBtn" type="button" aria-pressed="false">Pause</button>
     </div>
 
-    <div class="timeline" aria-hidden="true"><div class="bar" id="bar"></div></div>
+    <div class="timeline" aria-hidden="true"><div class="bar" id="ihp-bar"></div></div>
 
-    <div class="stage" id="stage">
+    <div class="stage" id="ihp-stage">
       <!-- Systemize -->
       <article class="card show" data-idx="0">
         <div class="grid">
@@ -148,7 +144,7 @@
               <div class="kpi"><b>1</b><span class="sub">single source of truth</span></div>
             </div>
             <div class="cta">
-              <a class="btn p" href="/services/data-clarity-sprint">See how a Sprint builds this</a>
+              <a class="btn p" href="/case-studies/overview">See how a Sprint builds this</a>
               <a class="btn" href="/mini-projects">Try a Mini-Project</a>
             </div>
           </div>
@@ -213,7 +209,7 @@
               <div class="kpi"><b>+2–4h</b><span class="sub">saved per analyst/day</span></div>
             </div>
             <div class="cta">
-              <a class="btn p" href="/resources/automation-playbook">Automation playbook</a>
+              <a class="btn p" href="/playbooks/automation">Automation playbook</a>
             </div>
           </div>
           <div class="col">
@@ -231,12 +227,14 @@
 
 <script>
 (function(){
-  const pills=[...document.querySelectorAll('.pill')];
-  const cards=[...document.querySelectorAll('.card')];
-  const prev=document.getElementById('prev');
-  const next=document.getElementById('next');
-  const bar=document.getElementById('bar');
-  const pauseBtn=document.getElementById('pauseBtn');
+  const root = document.getElementById('ihp-root');
+
+  const pills=[...root.querySelectorAll('.pill')];
+  const cards=[...root.querySelectorAll('.card')];
+  const prev=root.querySelector('#ihp-prev');
+  const next=root.querySelector('#ihp-next');
+  const bar=root.querySelector('#ihp-bar');
+  const pauseBtn=root.querySelector('#ihp-pauseBtn');
 
   const AUTOPLAY=true;
   const DURATION=12000;
@@ -251,24 +249,31 @@
     });
   }
 
-  function startCycle(ms){
-    if(!AUTOPLAY) return;
-    if(advanceTimer) clearTimeout(advanceTimer);
+  function show(idx){
+    if(lock) return;
+    idx=(idx+cards.length)%cards.length;
+    if(idx===i) return;
+    lock=true;
 
-    // reset + animate timeline
-    requestAnimationFrame(()=>{
-      bar.style.transition='none';
-      if(ms===DURATION) bar.style.width='0%';
-      requestAnimationFrame(()=>{
-        bar.style.transition=`width ${ms}ms linear`;
-        bar.style.width='100%';
-      });
-    });
+    cards[i].classList.remove('show');
+    cards[idx].classList.add('show');
+    i=idx; setPills(i);
 
-    startTime=Date.now();
-    remaining=ms;
-    advanceTimer=setTimeout(()=>{ show(i+1); }, ms);
+    remaining=DURATION;
+    if(AUTOPLAY && !paused) startCycle(DURATION);
+
+    postHeight();
+    setTimeout(()=>{lock=false;},420);
   }
+  function go(n){ show(n); }
+
+  pills.forEach(p=>p.addEventListener('click',()=>go(Number(p.dataset.idx)),{passive:true}));
+  prev.addEventListener('click',()=>go(i-1),{passive:true});
+  next.addEventListener('click',()=>go(i+1),{passive:true});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowLeft') go(i-1);
+    if(e.key==='ArrowRight') go(i+1);
+  });
 
   function pauseAutoplay(){
     if(paused) return;
@@ -289,38 +294,25 @@
     pauseBtn.textContent='Pause';
     pauseBtn.setAttribute('aria-pressed','false');
   }
-
-  function show(idx){
-    if(lock) return;
-    idx=(idx+cards.length)%cards.length;
-    if(idx===i) return;
-    lock=true;
-
-    cards[i].classList.remove('show');
-    cards[idx].classList.add('show');
-    i=idx; setPills(i);
-
-    remaining=DURATION;
-    if(AUTOPLAY && !paused) startCycle(DURATION);
-
-    postHeight();
-    setTimeout(()=>{lock=false;},420);
-  }
-
-  function go(n){ show(n); }
-
-  // Events
-  pills.forEach(p=>p.addEventListener('click',()=>go(Number(p.dataset.idx)),{passive:true}));
-  prev.addEventListener('click',()=>go(i-1),{passive:true});
-  next.addEventListener('click',()=>go(i+1),{passive:true});
-  document.addEventListener('keydown',e=>{
-    if(e.key==='ArrowLeft') go(i-1);
-    if(e.key==='ArrowRight') go(i+1);
-  });
   pauseBtn.addEventListener('click',()=>{ paused ? resumeAutoplay() : pauseAutoplay(); });
 
-  /* Resize-to-fit inside Webflow embed */
-  const root = document.getElementById('pillars-root');
+  function startCycle(ms){
+    if(!AUTOPLAY) return;
+    if(advanceTimer) clearTimeout(advanceTimer);
+    requestAnimationFrame(()=>{
+      bar.style.transition='none';
+      if(ms===DURATION) bar.style.width='0%';
+      requestAnimationFrame(()=>{
+        bar.style.transition=`width ${ms}ms linear`;
+        bar.style.width='100%';
+      });
+    });
+    startTime=Date.now();
+    remaining=ms;
+    advanceTimer=setTimeout(()=>{ show(i+1); }, ms);
+  }
+
+  /* Height postMessage for iframes / embeds */
   function visibleHeight(){
     const r = root.getBoundingClientRect();
     return Math.ceil(r.height) + 2;
@@ -333,7 +325,6 @@
   if (document.fonts && document.fonts.ready) { document.fonts.ready.then(postHeight).catch(()=>{}); }
   let t; window.addEventListener('resize', ()=>{ clearTimeout(t); t=setTimeout(postHeight,120); });
 
-  // Init
   requestAnimationFrame(()=>{
     cards.forEach((c,idx)=>c.classList.toggle('show', idx===0));
     setPills(0);
