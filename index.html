@@ -326,6 +326,9 @@
     setPills(0);
     if(AUTOPLAY) startCycle(DURATION);
     postHeight();
+
+       // 👇 ADD THIS LINE BELOW 👇
+    document.querySelectorAll('.cta a').forEach(a => a.setAttribute('target', '_top'));
   });
 })();
 </script>
