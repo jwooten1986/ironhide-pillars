@@ -29,7 +29,6 @@
   h2{ margin:0 0 8px; font-weight:900; letter-spacing:-.01em; font-size:clamp(28px,3.6vw,46px); line-height:1.05 }
   .sub{ margin:0 auto 20px; color:var(--mut); max-width:70ch }
 
-  /* controls */
   .ctrl{ display:flex; justify-content:center; align-items:center; gap:14px; margin:16px 0 10px; flex-wrap:wrap }
   .arrow{
     width:42px; height:42px; border-radius:999px; display:grid; place-items:center;
@@ -65,7 +64,6 @@
   .timeline{ height:3px; width:min(640px,80vw); margin:10px auto 16px; background:rgba(255,255,255,.12); border-radius:999px; overflow:hidden }
   .bar{ height:100%; width:0%; background:linear-gradient(90deg,rgba(74,163,255,1),rgba(34,197,94,1)); transition:width .2s linear }
 
-  /* content */
   .stage{ display:block; width:100%; margin:0 auto; }
   .card{
     display:none; width:min(var(--cardw),calc(100vw - 48px)); margin:0 auto;
@@ -108,7 +106,6 @@
     <h2>Systemize. Visualize. Optimize.</h2>
     <p class="sub">First we make your data dependable, then understandable, and finally we make it work for you — with automations that close the loop. Each phase cuts waste, sharpens decisions, and protects your margins.</p>
 
-    <!-- Controls -->
     <div class="ctrl" role="group" aria-label="Pillar selector">
       <button class="arrow" id="ihp-prev" type="button" aria-label="Previous">‹</button>
       <div class="pills" id="ihp-pillRow">
@@ -144,8 +141,8 @@
               <div class="kpi"><b>1</b><span class="sub">single source of truth</span></div>
             </div>
             <div class="cta">
-              <a class="btn p" href="/case-studies/overview">See how a Sprint builds this</a>
-              <a class="btn" href="/mini-projects">Try a Mini-Project</a>
+              <a class="btn p" href="https://www.ironhideanalytics.com/case-studies/overview">See how a Sprint builds this</a>
+              <a class="btn" href="https://www.ironhideanalytics.com/mini-projects">Try a Mini-Project</a>
             </div>
           </div>
           <div class="col">
@@ -177,7 +174,7 @@
               <div class="kpi"><b>0</b><span class="sub">guesswork</span></div>
             </div>
             <div class="cta">
-              <a class="btn p" href="/case-studies/overview">See examples</a>
+              <a class="btn p" href="https://www.ironhideanalytics.com/case-studies/overview">See examples</a>
             </div>
           </div>
           <div class="col">
@@ -209,7 +206,7 @@
               <div class="kpi"><b>+2–4h</b><span class="sub">saved per analyst/day</span></div>
             </div>
             <div class="cta">
-              <a class="btn p" href="/playbooks/automation">Automation playbook</a>
+              <a class="btn p" href="https://www.ironhideanalytics.com/playbooks/automation">Automation playbook</a>
             </div>
           </div>
           <div class="col">
@@ -312,7 +309,6 @@
     advanceTimer=setTimeout(()=>{ show(i+1); }, ms);
   }
 
-  /* Height postMessage for iframes / embeds */
   function visibleHeight(){
     const r = root.getBoundingClientRect();
     return Math.ceil(r.height) + 2;
