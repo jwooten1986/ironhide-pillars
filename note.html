@@ -20,7 +20,7 @@
   }
 
   *{box-sizing:border-box}
-  html,body{height:100%}
+  html,body{height:100%; overflow-x:hidden;} /* prevent horizontal scroll */
   body{
     margin:0; display:grid; place-items:center;
     background:radial-gradient(1000px 640px at 50% -220px,#0d1628 0%,#0a111d 55%,#091019 100%);
@@ -50,11 +50,15 @@
     color:#f8fbff; font-weight:500; font-size:24px; letter-spacing:.26px;
     margin:12px 6px 6px;
   }
-  .underline{width:132px; height:12px; margin:0 6px 18px}
+  .underline{width:132px; height:12px; margin:0 6px 14px}
   .underline path{stroke:var(--accent); stroke-width:1.6; fill:none; stroke-linecap:round; opacity:.95}
 
   /* Scroll / rollers */
-  .scroll{position:relative; margin:0 auto; width:min(820px,92vw); filter:drop-shadow(0 18px 38px rgba(0,0,0,.42))}
+  .scroll{
+    position:relative; margin:0 auto; width:min(820px,92vw);
+    filter:drop-shadow(0 18px 38px rgba(0,0,0,.42));
+    overflow:hidden; /* clip any inner sweep/glow */
+  }
   .roller{
     position:absolute; left:50%; translate:-50% 0; width:86%; height:22px; border-radius:12px;
     background:linear-gradient(90deg,#0f1525,#263248 20%,#2f3e5d 50%,#263248 80%,#0f1525);
@@ -80,13 +84,14 @@
       linear-gradient(180deg,#fbf9f6 0%,#f3ece4 52%,#ede5db 100%);
     border:1px solid rgba(0,0,0,.08);
     border-radius:10px;
-    padding:30px 32px 24px;
+    padding:26px 28px 22px;
     box-shadow:
       inset 0 1px 0 rgba(255,255,255,.75),
       inset 0 -18px 30px rgba(0,0,0,.06),
       inset 0 0 0 9999px rgba(0,0,0,.02);
     transform-origin:50% 0%;
     opacity:0; transform:scaleY(.08) translateY(-40px);
+    overflow:hidden; /* clip the sweep highlight to prevent x-scroll */
   }
   .sheet::before{
     content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
@@ -112,11 +117,11 @@
 
   /* Body — Alumni Sans, medium-light with subtle ink bleed */
   .para{
-    margin:14px 0;
-    font-size:15px;
-    line-height:1.52;
+    margin:12px 0;           /* tighter paragraph gap */
+    font-size:16px;
+    line-height:1.5;
     letter-spacing:.01em;
-    font-weight:400;                 /* middle ground */
+    font-weight:400;
     color:var(--ink);
     text-shadow:
       0 .018em 0 rgba(0,0,0,.18),
@@ -127,14 +132,14 @@
   .word.on{opacity:1; transform:translateY(0); transition:opacity .22s ease, transform .22s ease}
 
   /* Accent — vector handwriting (slightly larger/bolder) */
-  .accent{margin:16px 0 12px}
-  svg.handwrite{width:100%; height:70px; display:block}
+  .accent{margin:6px 0 4px}        /* tighter above/below */
+  svg.handwrite{width:100%; height:62px; display:block}  /* slightly shorter visual box */
   .hw-text{
     font-family:"Nothing You Could Do",cursive;
-    font-size:32px;                       /* bigger */
+    font-size:32px;
     fill:transparent;
-    stroke:#0c1220;                       /* dark stroke */
-    stroke-width:1.5;                     /* slightly thicker */
+    stroke:#0c1220;
+    stroke-width:1.5;
     stroke-linecap:round; stroke-linejoin:round;
     stroke-dasharray:2600; stroke-dashoffset:2600;
     filter:drop-shadow(0 1px 0 rgba(255,255,255,.35));
@@ -144,17 +149,17 @@
   @keyframes dash{to{stroke-dashoffset:0}}
   @keyframes fill{to{fill:#0b111a}}
 
-  .ink{width:100%; height:12px; margin-top:6px; filter:drop-shadow(0 2px 6px rgba(139,189,255,.25))}
+  .ink{width:100%; height:10px; margin-top:3px; filter:drop-shadow(0 2px 6px rgba(139,189,255,.25))}
   .ink path{
-    stroke:#8bbdff; stroke-width:2.8; fill:none; stroke-linecap:round;
+    stroke:#8bbdff; stroke-width:2.6; fill:none; stroke-linecap:round;
     stroke-dasharray:1200; stroke-dashoffset:1200;
   }
-  .ink.on path{animation:inkdraw 700ms ease 80ms forwards}
+  .ink.on path{animation:inkdraw 650ms ease 60ms forwards}
   @keyframes inkdraw{to{stroke-dashoffset:0}}
 
   /* Signature */
   .sign{
-    display:flex; align-items:center; gap:12px; margin-top:20px; justify-content:flex-end;
+    display:flex; align-items:center; gap:12px; margin-top:18px; justify-content:flex-end;
     opacity:0; transform:translateY(8px)
   }
   .sign.on{opacity:1; transform:translateY(0); transition:opacity .4s ease, transform .4s ease}
