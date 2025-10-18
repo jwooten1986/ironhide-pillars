@@ -1,1 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ironhide — Founder's Note</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    /* Ironhide palette */
+    --bg:#0b111d;
+    --panel:#0f1625;
+    --steel:#1b2436;
+    --steel-hi:#2a3754;
+    --paper:#f2ede6;
+    --paper-ink:#1a1a1a;
+    --accent:#8fbaff;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    display:grid; place-items:center;
+    background:
+      radial-gradient(1000px 600px at 50% -200px,#0d1526 0%,#0a111c 60%,#091019 100%);
+    font-family:"Alumni Sans Pinstripe",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    color:var(--paper-ink);
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  }
+
+  /* Outer frame */
+  .stage{
+    width:min(980px,96vw);
+    padding:28px 20px 40px;
+    background:linear-gradient(180deg,rgba(18,25,40,.9),rgba(10,16,27,.92));
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px;
+    box-shadow:0 20px 50px rgba(0,0,0,.45), 0 0 1px rgba(255,255,255,.05) inset;
+  }
+
+  .kicker{
+    text-transform:uppercase; letter-spacing:.28em; font-weight:900;
+    color:#eaf2ff; opacity:.95; font-size:18px;
+    border-bottom:1px dashed rgba(143,186,255,.35);
+    padding-bottom:8px; margin:0 0 14px 6px;
+  }
+
+  .title{
+    color:#f7fbff; font-weight:400; font-size:22px; letter-spacing:.26px;
+    margin:10px 6px 4px;
+  }
+  .underline{width:120px; height:10px; margin:0 6px 18px}
+  .underline path{stroke:var(--accent); stroke-width:1.4; fill:none; stroke-linecap:round; opacity:.85}
+
+  /* Tech rollers + parchment sheet */
+  .scroll{
+    position:relative; margin:0 auto; width:min(820px,92vw);
+    filter:drop-shadow(0 18px 38px rgba(0,0,0,.42));
+  }
+  /* steel rollers */
+  .roller{
+    position:absolute; left:50%; translate:-50% 0;
+    width:86%; height:22px; border-radius:12px;
+    background:linear-gradient(90deg,#0f1525,#263248 20%,#2f3e5d 50%,#263248 80%,#0f1525);
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 8px 18px rgba(0,0,0,.35);
+  }
+  .roller.top{top:-12px}
+  .roller.bot{bottom:-12px}
+
+  /* parchment */
+  .sheet{
+    background:
+      radial-gradient(100% 140% at 50% 0%, rgba(255,255,255,.6), transparent 60%),
+      linear-gradient(180deg,#f7f3ee 0%,#efe8de 50%,#eae2d7 100%);
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:10px;
+    padding:28px 28px 24px;
+    /* unfurl */
+    transform-origin:50% 0%;
+    opacity:0; transform:scaleY(.08) translateY(-40px);
+    animation:unfurl 900ms cubic-bezier(.2,.8,.3,1) 90ms forwards;
+  }
+  @keyframes unfurl{
+    0%{opacity:0; transform:scaleY(.08) translateY(-40px)}
+    60%{opacity:1; transform:scaleY(1.03)}
+    100%{opacity:1; transform:scaleY(1)}
+  }
+
+  .sheet p{
+    margin:10px 0; color:#232323; font-size:16.5px; line-height:1.72; letter-spacing:.22px;
+    opacity:0; transform:translateY(12px);
+    animation:rise 520ms ease forwards;
+  }
+  .sheet p:nth-of-type(1){animation-delay:320ms}
+  .sheet p:nth-of-type(2){animation-delay:480ms}
+  .sheet p:nth-of-type(3){animation-delay:640ms}
+  .sheet p:nth-of-type(4){animation-delay:800ms}
+  @keyframes rise{to{opacity:1; transform:translateY(0)}}
+
+  .accent{
+    font-family:"Nothing You Could Do",cursive;
+    font-size:22px; text-align:center; color:#101010;
+    letter-spacing:.02em; margin:12px 0;
+    opacity:0; animation:handwrite 1.7s ease forwards 520ms;
+  }
+  @keyframes handwrite{
+    0%{opacity:0; letter-spacing:-.06em}
+    20%{opacity:1}
+    100%{opacity:1; letter-spacing:.02em}
+  }
+  .ink{
+    width:100%; height:12px; margin-top:6px;
+  }
+  .ink path{
+    stroke:#8bbdff; stroke-width:2.8; fill:none; stroke-linecap:round;
+    stroke-dasharray:1200; stroke-dashoffset:1200;
+    animation:inkdraw .9s ease .9s forwards;
+  }
+  @keyframes inkdraw{to{stroke-dashoffset:0}}
+
+  .sign{
+    display:flex; align-items:center; gap:12px; margin-top:16px;
+    justify-content:flex-end;
+  }
+  .signature{
+    width:152px; height:auto; mix-blend-mode:multiply;
+    filter:brightness(1.02) contrast(1.05);
+  }
+  .meta{font-size:13px; color:#333; text-align:right}
+  .meta .name{font-size:14.5px}
+</style>
+</head>
+<body>
+
+  <div class="stage">
+    <div class="kicker">FROM THE FOUNDER</div>
+    <h2 class="title">A note on why Ironhide exists</h2>
+    <svg class="underline" viewBox="0 0 120 10" aria-hidden="true"><path d="M2 7 C45 2, 90 9, 118 5"/></svg>
+
+    <div class="scroll">
+      <div class="roller top" aria-hidden="true"></div>
+
+      <div class="sheet" role="article" aria-label="Founder's note">
+        <p>I didn’t start Ironhide because I had all the answers. I started it because I was tired of watching good teams drown in the same chaos I used to fight through—endless spreadsheets, broken dashboards, and “data” that didn’t mean anything.</p>
+
+        <p>I’m not the guy with a dozen degrees or a secret formula. I’m the guy who learned how to make sense of the mess—who sees how systems connect—and who refuses to let businesses settle for flying blind.</p>
+
+        <div class="accent">
+          Ironhide was built on a simple belief: clarity isn’t a luxury — it’s survival.
+          <svg class="ink" viewBox="0 0 720 12" aria-hidden="true"><path d="M8 8 C180 4, 520 12, 712 6"/></svg>
+        </div>
+
+        <p>And yeah, I’ve felt like an imposter before. But every time I thought I wasn’t ready, I realized something: no one else was coming to fix it. The people who build things that matter aren’t the ones who always feel qualified—they’re the ones who keep building anyway.</p>
+
+        <p>So that’s what Ironhide is. Not a façade. Not a startup story polished for LinkedIn. Just me, a few trusted partners, and a promise: we’ll help you see what’s really happening in your business—and we won’t stop until the numbers make sense.</p>
+
+        <div class="sign">
+          <img class="signature" src="https://cdn.prod.website-files.com/68b37c00a70ab6fafaba835b/68edf36f9a75f01acafcde4f_JW%20Clear%20BG.png" alt="Signature of Jeremiah Wooten">
+          <div class="meta">
+            <div class="name">Jeremiah Wooten</div>
+            <div class="title">Founder, Ironhide Analytics</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="roller bot" aria-hidden="true"></div>
+    </div>
+  </div>
+
+</body>
+</html>
