@@ -9,13 +9,12 @@
 
 <style>
   :root{
-    /* Ironhide palette */
     --bg:#0b111d;
     --panel:#0f1625;
     --steel:#1b2436;
     --paper:#f3eee7;
-    --ink:#0e1320;          /* ← darker body ink */
-    --ink-dim:#1a2233;      /* slightly lighter than body for subtle hierarchy */
+    --ink:#0b1020;          /* darker body ink */
+    --ink-dim:#1a2233;
     --accent:#8fbaff;
   }
 
@@ -58,86 +57,127 @@
     background:linear-gradient(90deg,#0f1525,#263248 20%,#2f3e5d 50%,#263248 80%,#0f1525);
     border:1px solid rgba(255,255,255,.08);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 8px 18px rgba(0,0,0,.35);
+    overflow:hidden;
   }
+  .roller::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(120deg,transparent 0%,rgba(255,255,255,.18) 35%,transparent 70%);
+    transform:translateX(-120%);
+  }
+  .roller.shimmer::after{animation:rollerShine .9s ease-out .2s both}
+  @keyframes rollerShine{to{transform:translateX(120%)}}
   .roller.top{top:-12px}
   .roller.bot{bottom:-12px}
 
-  /* Parchment sheet */
+  /* Parchment */
   .sheet{
+    position:relative;
     background:
       radial-gradient(100% 140% at 50% 0%, rgba(255,255,255,.55), transparent 60%),
-      linear-gradient(180deg,#f9f6f2 0%,#f0e9e0 52%,#e9e1d7 100%);
+      linear-gradient(180deg,#faf7f4 0%,#f2ebe3 52%,#ece4da 100%);
     border:1px solid rgba(0,0,0,.08);
     border-radius:10px;
     padding:28px 28px 24px;
     box-shadow: inset 0 1px 0 rgba(255,255,255,.7), inset 0 -18px 30px rgba(0,0,0,.06);
     transform-origin:50% 0%;
     opacity:0; transform:scaleY(.08) translateY(-40px);
-    animation:unfurl 900ms cubic-bezier(.2,.8,.3,1) 90ms forwards;
   }
+  .sheet.unfurl{animation:unfurl 800ms cubic-bezier(.2,.8,.3,1) 40ms forwards}
   @keyframes unfurl{
     0%{opacity:0; transform:scaleY(.08) translateY(-40px)}
     60%{opacity:1; transform:scaleY(1.03)}
     100%{opacity:1; transform:scaleY(1)}
   }
-
-  /* Paragraphs: darker ink + typewriter */
-  .para{
-    margin:12px 0; font-size:16.8px; line-height:1.74; letter-spacing:.22px;
-    color:var(--ink);
-    opacity:0; transform:translateY(12px);
+  .sheet::before{
+    content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.015) 0 1px, transparent 1px 2px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.012) 0 1px, transparent 1px 2px);
+    mix-blend-mode:multiply; opacity:.6;
   }
-  /* caret */
-  .cursor{display:inline-block; width:1.6px; height:1.1em; background:#1b2a44; translate:0 .18em; animation:blink 1s step-end infinite}
-  @keyframes blink{50%{opacity:0}}
-
-  /* Accent line */
-  .accent{
-    margin:14px 0 10px; text-align:center;
+  .sheet::after{
+    content:""; position:absolute; inset:-2px; pointer-events:none; border-radius:inherit;
+    background:linear-gradient(100deg,transparent 10%,rgba(255,255,255,.55) 35%,transparent 60%);
+    transform:translateX(-120%);
   }
-  .accent-text{
+  .sheet.sweep::after{animation:sweep 900ms ease-out .12s both}
+  @keyframes sweep{to{transform:translateX(120%)}}
+
+  /* Paragraphs (word by word) */
+  .para{margin:12px 0; font-size:17.2px; line-height:1.74; letter-spacing:.22px; color:var(--ink)}
+  .word{opacity:0; transform:translateY(6px)}
+  .word.on{opacity:1; transform:translateY(0); transition:opacity .22s ease, transform .22s ease}
+
+  /* Accent — SVG handwriting */
+  .accent{margin:16px 0 10px}
+  svg.handwrite{width:100%; height:64px; display:block}
+  .hw-text{
     font-family:"Nothing You Could Do",cursive;
-    font-size:22px; color:#0c0f17; letter-spacing:.02em;
-    opacity:0;
+    font-size:28px;
+    fill:transparent;                 /* no fill while stroking */
+    stroke:#0d1322;                   /* dark stroke */
+    stroke-width:1.3;
+    stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:2400;            /* long dash to cover all glyph outlines */
+    stroke-dashoffset:2400;
+    filter:drop-shadow(0 1px 0 rgba(255,255,255,.35));
   }
-  .ink{width:100%; height:12px; margin-top:6px}
+  .hw-text.draw{animation:dash 1400ms ease forwards 200ms}
+  @keyframes dash{to{stroke-dashoffset:0}}
+  .hw-text.fill-in{animation:fill 420ms ease forwards 1350ms}
+  @keyframes fill{to{fill:#0c101b}}
+
+  .ink{width:100%; height:12px; margin-top:6px; filter:drop-shadow(0 2px 6px rgba(139,189,255,.25))}
   .ink path{
     stroke:#8bbdff; stroke-width:2.8; fill:none; stroke-linecap:round;
     stroke-dasharray:1200; stroke-dashoffset:1200;
   }
+  .ink.on path{animation:inkdraw 700ms ease 80ms forwards}
+  @keyframes inkdraw{to{stroke-dashoffset:0}}
 
   /* Signature */
   .sign{display:flex; align-items:center; gap:12px; margin-top:18px; justify-content:flex-end; opacity:0; transform:translateY(8px)}
-  .signature{width:156px; height:auto; mix-blend-mode:multiply; filter:brightness(1.05) contrast(1.08)}
+  .sign.on{opacity:1; transform:translateY(0); transition:opacity .4s ease, transform .4s ease}
+  .signature{width:158px; height:auto; mix-blend-mode:multiply; filter:brightness(1.06) contrast(1.1)}
   .meta{font-size:13.2px; color:var(--ink); text-align:right}
   .meta .name{font-size:14.8px; color:var(--ink)}
   .meta .title{color:var(--ink-dim)}
 
-  /* reduced motion support */
   @media (prefers-reduced-motion:reduce){
-    .sheet,.para,.accent-text,.sign,.ink path{animation:none !important; transition:none !important; opacity:1 !important; transform:none !important}
+    .sheet,.sheet::after,.roller::after,.ink path,.word,.hw-text{animation:none !important; transition:none !important}
+    .sheet{opacity:1; transform:none}
+    .word{opacity:1; transform:none}
+    .hw-text{stroke-dashoffset:0; fill:#0c101b}
+    .ink path{stroke-dashoffset:0}
+    .sign{opacity:1; transform:none}
   }
 </style>
 </head>
 <body>
 
-  <div class="stage">
+  <div class="stage" id="stage">
     <div class="kicker">FROM THE FOUNDER</div>
     <h2 class="title">A note on why Ironhide exists</h2>
     <svg class="underline" viewBox="0 0 120 10" aria-hidden="true"><path d="M2 7 C45 2, 90 9, 118 5"/></svg>
 
     <div class="scroll">
-      <div class="roller top" aria-hidden="true"></div>
+      <div class="roller top" id="rollerTop" aria-hidden="true"></div>
 
       <div class="sheet" id="sheet" role="article" aria-label="Founder's note">
-        <!-- paragraphs will be typed by JS (using their data-text) -->
         <p class="para" data-text="I didn’t start Ironhide because I had all the answers. I started it because I was tired of watching good teams drown in the same chaos I used to fight through—endless spreadsheets, broken dashboards, and “data” that didn’t mean anything."></p>
 
         <p class="para" data-text="I’m not the guy with a dozen degrees or a secret formula. I’m the guy who learned how to make sense of the mess—who sees how systems connect—and who refuses to let businesses settle for flying blind."></p>
 
+        <!-- Accent: vector handwriting (text stroked then filled) -->
         <div class="accent">
-          <span class="accent-text" id="accentText">Ironhide was built on a simple belief: clarity isn’t a luxury — it’s survival.</span>
-          <svg class="ink" viewBox="0 0 720 12" aria-hidden="true"><path id="inkPath" d="M8 8 C180 4, 520 12, 712 6"/></svg>
+          <svg class="handwrite" viewBox="0 0 1200 90" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <text x="12" y="54" class="hw-text" id="hwText">
+              Ironhide was built on a simple belief: clarity isn’t a luxury — it’s survival.
+            </text>
+          </svg>
+          <svg class="ink" id="ink" viewBox="0 0 1200 12" aria-hidden="true">
+            <path d="M8 8 C280 4, 920 12, 1192 6"/>
+          </svg>
         </div>
 
         <p class="para" data-text="And yeah, I’ve felt like an imposter before. But every time I thought I wasn’t ready, I realized something: no one else was coming to fix it. The people who build things that matter aren’t the ones who always feel qualified—they’re the ones who keep building anyway."></p>
@@ -153,93 +193,99 @@
         </div>
       </div>
 
-      <div class="roller bot" aria-hidden="true"></div>
+      <div class="roller bot" id="rollerBot" aria-hidden="true"></div>
     </div>
   </div>
 
 <script>
-  // Simple sequenced animations after the parchment unfurls
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function typeIt(el, text, speed=18){
-    return new Promise(resolve=>{
-      el.style.opacity = '1';
-      el.style.transform = 'translateY(0)';
-      const cursor = document.createElement('span');
-      cursor.className = 'cursor';
-      el.appendChild(cursor);
+  function prepWords(p){
+    const text = (p.dataset.text || '').trim();
+    p.textContent = '';
+    const words = text.split(/(\s+)/); // keep spaces
+    return words.map(w=>{
+      const span = document.createElement('span');
+      span.className = 'word';
+      span.textContent = w;
+      p.appendChild(span);
+      return span;
+    });
+  }
 
-      let i = 0;
-      function tick(){
-        if(i < text.length){
-          el.insertBefore(document.createTextNode(text[i]), cursor);
-          i++;
-          setTimeout(tick, speed);
-        }else{
-          cursor.remove();
-          resolve();
+  async function revealWords(paragraphs, totalDuration = 3500){
+    const lists = paragraphs.map(prepWords);
+    const totalWords = lists.reduce((n,l)=> n + l.filter(w=>w.textContent.trim()).length, 0);
+    if (!totalWords) return;
+    const perWord = Math.max(5, Math.floor(totalDuration / totalWords));
+
+    for (const list of lists){
+      for (const span of list){
+        if (span.textContent.trim()){
+          span.classList.add('on');
+          await new Promise(r=>setTimeout(r, perWord));
+        } else {
+          span.classList.add('on');
         }
       }
-      tick();
-    });
+      await new Promise(r=>setTimeout(r, Math.min(120, perWord*4)));
+    }
   }
 
-  async function runSequence(){
+  function runSequence(){
     const sheet = document.getElementById('sheet');
+    const rollerTop = document.getElementById('rollerTop');
+    const rollerBot = document.getElementById('rollerBot');
     const paras = Array.from(document.querySelectorAll('.para'));
-    const accentText = document.getElementById('accentText');
-    const inkPath = document.getElementById('inkPath');
+    const ink = document.getElementById('ink');
     const signRow = document.getElementById('signRow');
+    const hw = document.getElementById('hwText');
 
-    // wait for unfurl to complete
-    await new Promise(r => setTimeout(r, 950));
+    // Unfurl, sweep, roller shimmer
+    sheet.classList.add('unfurl'); sheet.classList.add('sweep');
+    rollerTop.classList.add('shimmer'); rollerBot.classList.add('shimmer');
 
-    // 1) First two paragraphs type in
-    for (let i=0;i<2;i++){
-      const t = paras[i].dataset.text || '';
-      await typeIt(paras[i], t, 17);
-      await new Promise(r => setTimeout(r, 160));
-    }
+    // Start body writing
+    setTimeout(()=>{ revealWords(paras, 3500); }, 200);
 
-    // 2) Accent line: fade/“write” + underline draw
-    accentText.style.opacity = '1';
-    // fake letter-drift write
-    accentText.animate(
-      [{letterSpacing:'-.06em',opacity:0},{letterSpacing:'.02em',opacity:1}],
-      {duration:1200,easing:'ease-out',fill:'forwards'}
-    );
-    // underline ink draw
-    inkPath.style.animation = 'inkdraw 900ms ease 300ms forwards';
+    // Vector handwriting: stroke outlines then fill
+    setTimeout(()=>{
+      hw.classList.add('draw');     // animate stroke dash
+      hw.classList.add('fill-in');  // fade in fill after stroke
+      ink.classList.add('on');      // underline draw
+    }, 260);
 
-    await new Promise(r => setTimeout(r, 1100));
-
-    // 3) Remaining paragraphs
-    for (let i=2;i<paras.length;i++){
-      const t = paras[i].dataset.text || '';
-      await typeIt(paras[i], t, 18);
-      await new Promise(r => setTimeout(r, 140));
-    }
-
-    // 4) Signature appears
-    signRow.animate(
-      [{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}],
-      {duration:500,easing:'ease-out',fill:'forwards'}
-    );
+    // Signature near the end
+    setTimeout(()=>{ signRow.classList.add('on'); }, 3200);
   }
 
-  if (!prefersReduced) {
-    runSequence();
-  } else {
-    // Reduced motion: show everything immediately
-    document.querySelectorAll('.para').forEach(p=>{
-      p.textContent = p.dataset.text || '';
-      p.style.opacity = '1'; p.style.transform='none';
-    });
-    document.getElementById('accentText').style.opacity='1';
-    document.getElementById('inkPath').style.strokeDashoffset='0';
-    const signRow = document.getElementById('signRow');
-    signRow.style.opacity='1'; signRow.style.transform='none';
+  function init(){
+    if (prefersReduced){
+      document.getElementById('sheet').classList.add('unfurl','sweep');
+      document.getElementById('rollerTop').classList.add('shimmer');
+      document.getElementById('rollerBot').classList.add('shimmer');
+
+      const paras = Array.from(document.querySelectorAll('.para'));
+      paras.forEach(p=>{ p.textContent = p.dataset.text || ''; });
+      document.getElementById('hwText').classList.add('draw','fill-in');
+      document.getElementById('ink').classList.add('on');
+      document.getElementById('signRow').classList.add('on');
+      return;
+    }
+
+    const target = document.getElementById('stage');
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if (e.isIntersecting){
+          runSequence();
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.25, rootMargin: "0px 0px -10% 0px" });
+    io.observe(target);
   }
+
+  init();
 </script>
 
 </body>
