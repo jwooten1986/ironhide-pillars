@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ironhide — Founder's Note</title>
 
-<!-- Body (darker, less dainty) + Handwritten accent -->
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;500&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+<!-- Fonts: Alumni Sans (body) + Nothing You Could Do (accent) -->
+<link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@400;500&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
 
 <style>
   :root{
     --bg:#0b111d;
     --panel:#0f1625;
     --paper:#f3eee7;
-    --ink:#0a0d14;       /* deep, dark body ink */
+    --ink:#0a0d14;          /* deep, dark body ink */
     --ink-dim:#364154;
     --accent:#8fbaff;
     --panel-border:rgba(255,255,255,.06);
@@ -24,12 +24,12 @@
   body{
     margin:0; display:grid; place-items:center;
     background:radial-gradient(1000px 640px at 50% -220px,#0d1628 0%,#0a111d 55%,#091019 100%);
-    font-family:"IBM Plex Sans Condensed",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    font-family:"Alumni Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     color:var(--ink);
   }
 
-  /* Frame around the parchment */
+  /* Frame */
   .stage{
     width:min(980px,96vw);
     padding:30px 22px 42px;
@@ -41,7 +41,7 @@
 
   .kicker{
     text-transform:uppercase; letter-spacing:.28em; font-weight:900;
-    color:#ecf3ff; opacity:.98; font-size:22px; /* bigger & brighter */
+    color:#ecf3ff; opacity:.98; font-size:22px;
     border-bottom:1px dashed rgba(143,186,255,.4);
     padding-bottom:10px; margin:0 0 16px 6px;
   }
@@ -53,7 +53,7 @@
   .underline{width:132px; height:12px; margin:0 6px 18px}
   .underline path{stroke:var(--accent); stroke-width:1.6; fill:none; stroke-linecap:round; opacity:.95}
 
-  /* Scroll/rollers */
+  /* Scroll / rollers */
   .scroll{position:relative; margin:0 auto; width:min(820px,92vw); filter:drop-shadow(0 18px 38px rgba(0,0,0,.42))}
   .roller{
     position:absolute; left:50%; translate:-50% 0; width:86%; height:22px; border-radius:12px;
@@ -72,7 +72,7 @@
   .roller.top{top:-12px}
   .roller.bot{bottom:-12px}
 
-  /* Parchment sheet */
+  /* Parchment */
   .sheet{
     position:relative;
     background:
@@ -84,11 +84,10 @@
     box-shadow:
       inset 0 1px 0 rgba(255,255,255,.75),
       inset 0 -18px 30px rgba(0,0,0,.06),
-      inset 0 0 0 9999px rgba(0,0,0,.02); /* faint overall tone */
+      inset 0 0 0 9999px rgba(0,0,0,.02);
     transform-origin:50% 0%;
     opacity:0; transform:scaleY(.08) translateY(-40px);
   }
-  /* inner vignette for depth */
   .sheet::before{
     content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
     background:
@@ -111,12 +110,14 @@
   }
   @keyframes sweep{to{transform:translateX(120%)}}
 
-  /* Body paragraphs — darker + micro ink-bleed */
+  /* Body — Alumni Sans, medium-light with subtle ink bleed */
   .para{
-    margin:12px 0;
-    font-size:18.2px; line-height:1.75; letter-spacing:.02em;
+    margin:14px 0;
+    font-size:18px;
+    line-height:1.78;
+    letter-spacing:.01em;
+    font-weight:400;                 /* middle ground */
     color:var(--ink);
-    /* micro bleed: extremely subtle stacked shadows */
     text-shadow:
       0 .018em 0 rgba(0,0,0,.18),
       0 0 .25px rgba(0,0,0,.18),
@@ -125,22 +126,23 @@
   .word{opacity:0; transform:translateY(6px)}
   .word.on{opacity:1; transform:translateY(0); transition:opacity .22s ease, transform .22s ease}
 
-  /* Accent — vector handwriting draw */
+  /* Accent — vector handwriting (slightly larger/bolder) */
   .accent{margin:16px 0 12px}
-  svg.handwrite{width:100%; height:64px; display:block}
+  svg.handwrite{width:100%; height:70px; display:block}
   .hw-text{
     font-family:"Nothing You Could Do",cursive;
-    font-size:28px;
+    font-size:32px;                       /* bigger */
     fill:transparent;
-    stroke:#0d1322; stroke-width:1.3;
+    stroke:#0c1220;                       /* dark stroke */
+    stroke-width:1.5;                     /* slightly thicker */
     stroke-linecap:round; stroke-linejoin:round;
-    stroke-dasharray:2400; stroke-dashoffset:2400;
+    stroke-dasharray:2600; stroke-dashoffset:2600;
     filter:drop-shadow(0 1px 0 rgba(255,255,255,.35));
   }
   .hw-text.draw{animation:dash 1400ms ease forwards 200ms}
   .hw-text.fill-in{animation:fill 420ms ease forwards 1350ms}
   @keyframes dash{to{stroke-dashoffset:0}}
-  @keyframes fill{to{fill:#0c101b}}
+  @keyframes fill{to{fill:#0b111a}}
 
   .ink{width:100%; height:12px; margin-top:6px; filter:drop-shadow(0 2px 6px rgba(139,189,255,.25))}
   .ink path{
@@ -150,7 +152,7 @@
   .ink.on path{animation:inkdraw 700ms ease 80ms forwards}
   @keyframes inkdraw{to{stroke-dashoffset:0}}
 
-  /* Signature row */
+  /* Signature */
   .sign{
     display:flex; align-items:center; gap:12px; margin-top:20px; justify-content:flex-end;
     opacity:0; transform:translateY(8px)
@@ -166,7 +168,7 @@
     .sheet,.sheet::after,.roller::after,.ink path,.word,.hw-text{animation:none !important; transition:none !important}
     .sheet{opacity:1; transform:none}
     .word{opacity:1; transform:none}
-    .hw-text{stroke-dashoffset:0; fill:#0c101b}
+    .hw-text{stroke-dashoffset:0; fill:#0b111a}
     .ink path{stroke-dashoffset:0}
     .sign{opacity:1; transform:none}
   }
@@ -188,8 +190,8 @@
         <p class="para" data-text="I’m not the guy with a dozen degrees or a secret formula. I’m the guy who learned how to make sense of the mess—who sees how systems connect—and who refuses to let businesses settle for flying blind."></p>
 
         <div class="accent">
-          <svg class="handwrite" viewBox="0 0 1200 90" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-            <text x="12" y="54" class="hw-text" id="hwText">
+          <svg class="handwrite" viewBox="0 0 1200 96" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <text x="12" y="58" class="hw-text" id="hwText">
               Ironhide was built on a simple belief: clarity isn’t a luxury — it’s survival.
             </text>
           </svg>
