@@ -5,55 +5,58 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Ironhide — Founder's Note</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
+<!-- Body (darker, less dainty) + Handwritten accent -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;500&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
 
 <style>
   :root{
     --bg:#0b111d;
     --panel:#0f1625;
-    --steel:#1b2436;
     --paper:#f3eee7;
-    --ink:#191e25;          /* darker body ink */
-    --ink-dim:#1a2233;
+    --ink:#0a0d14;       /* deep, dark body ink */
+    --ink-dim:#364154;
     --accent:#8fbaff;
+    --panel-border:rgba(255,255,255,.06);
   }
 
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
     margin:0; display:grid; place-items:center;
-    background:radial-gradient(1000px 600px at 50% -200px,#0d1526 0%,#0a111c 60%,#091019 100%);
-    font-family:"Alumni Sans Pinstripe",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    background:radial-gradient(1000px 640px at 50% -220px,#0d1628 0%,#0a111d 55%,#091019 100%);
+    font-family:"IBM Plex Sans Condensed",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     color:var(--ink);
   }
 
-  /* Frame */
+  /* Frame around the parchment */
   .stage{
     width:min(980px,96vw);
-    padding:28px 20px 40px;
-    background:linear-gradient(180deg,rgba(18,25,40,.9),rgba(10,16,27,.92));
-    border:1px solid rgba(255,255,255,.06);
+    padding:30px 22px 42px;
+    background:linear-gradient(180deg,rgba(18,25,40,.92),rgba(10,16,27,.94));
+    border:1px solid var(--panel-border);
     border-radius:18px;
     box-shadow:0 20px 50px rgba(0,0,0,.45), 0 0 1px rgba(255,255,255,.05) inset;
   }
 
   .kicker{
     text-transform:uppercase; letter-spacing:.28em; font-weight:900;
-    color:#eaf2ff; opacity:.98; font-size:18px;
-    border-bottom:1px dashed rgba(143,186,255,.35);
-    padding-bottom:8px; margin:0 0 14px 6px;
+    color:#ecf3ff; opacity:.98; font-size:22px; /* bigger & brighter */
+    border-bottom:1px dashed rgba(143,186,255,.4);
+    padding-bottom:10px; margin:0 0 16px 6px;
   }
 
-  .title{color:#f7fbff; font-weight:400; font-size:22px; letter-spacing:.26px; margin:10px 6px 4px}
-  .underline{width:120px; height:10px; margin:0 6px 18px}
-  .underline path{stroke:var(--accent); stroke-width:1.4; fill:none; stroke-linecap:round; opacity:.9}
+  .title{
+    color:#f8fbff; font-weight:500; font-size:24px; letter-spacing:.26px;
+    margin:12px 6px 6px;
+  }
+  .underline{width:132px; height:12px; margin:0 6px 18px}
+  .underline path{stroke:var(--accent); stroke-width:1.6; fill:none; stroke-linecap:round; opacity:.95}
 
-  /* Scroll assembly */
+  /* Scroll/rollers */
   .scroll{position:relative; margin:0 auto; width:min(820px,92vw); filter:drop-shadow(0 18px 38px rgba(0,0,0,.42))}
   .roller{
-    position:absolute; left:50%; translate:-50% 0;
-    width:86%; height:22px; border-radius:12px;
+    position:absolute; left:50%; translate:-50% 0; width:86%; height:22px; border-radius:12px;
     background:linear-gradient(90deg,#0f1525,#263248 20%,#2f3e5d 50%,#263248 80%,#0f1525);
     border:1px solid rgba(255,255,255,.08);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 8px 18px rgba(0,0,0,.35);
@@ -69,62 +72,74 @@
   .roller.top{top:-12px}
   .roller.bot{bottom:-12px}
 
-  /* Parchment */
+  /* Parchment sheet */
   .sheet{
     position:relative;
     background:
-      radial-gradient(100% 140% at 50% 0%, rgba(255,255,255,.55), transparent 60%),
-      linear-gradient(180deg,#faf7f4 0%,#f2ebe3 52%,#ece4da 100%);
+      radial-gradient(180% 100% at 50% -20%, rgba(255,255,255,.55), transparent 65%),
+      linear-gradient(180deg,#fbf9f6 0%,#f3ece4 52%,#ede5db 100%);
     border:1px solid rgba(0,0,0,.08);
     border-radius:10px;
-    padding:28px 28px 24px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.7), inset 0 -18px 30px rgba(0,0,0,.06);
+    padding:30px 32px 24px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.75),
+      inset 0 -18px 30px rgba(0,0,0,.06),
+      inset 0 0 0 9999px rgba(0,0,0,.02); /* faint overall tone */
     transform-origin:50% 0%;
     opacity:0; transform:scaleY(.08) translateY(-40px);
   }
-  .sheet.unfurl{animation:unfurl 800ms cubic-bezier(.2,.8,.3,1) 40ms forwards}
-  @keyframes unfurl{
-    0%{opacity:0; transform:scaleY(.08) translateY(-40px)}
-    60%{opacity:1; transform:scaleY(1.03)}
-    100%{opacity:1; transform:scaleY(1)}
-  }
+  /* inner vignette for depth */
   .sheet::before{
     content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit;
     background:
+      radial-gradient(120% 110% at 50% 60%, rgba(0,0,0,.06), transparent 60%),
       repeating-linear-gradient(0deg, rgba(0,0,0,.015) 0 1px, transparent 1px 2px),
       repeating-linear-gradient(90deg, rgba(0,0,0,.012) 0 1px, transparent 1px 2px);
-    mix-blend-mode:multiply; opacity:.6;
+    mix-blend-mode:multiply;
   }
   .sheet::after{
     content:""; position:absolute; inset:-2px; pointer-events:none; border-radius:inherit;
     background:linear-gradient(100deg,transparent 10%,rgba(255,255,255,.55) 35%,transparent 60%);
     transform:translateX(-120%);
   }
+  .sheet.unfurl{animation:unfurl 800ms cubic-bezier(.2,.8,.3,1) 40ms forwards}
   .sheet.sweep::after{animation:sweep 900ms ease-out .12s both}
+  @keyframes unfurl{
+    0%{opacity:0; transform:scaleY(.08) translateY(-40px)}
+    60%{opacity:1; transform:scaleY(1.03)}
+    100%{opacity:1; transform:scaleY(1)}
+  }
   @keyframes sweep{to{transform:translateX(120%)}}
 
-  /* Paragraphs (word by word) */
-  .para{margin:12px 0; font-size:17.2px; line-height:1.74; letter-spacing:.22px; color:var(--ink)}
+  /* Body paragraphs — darker + micro ink-bleed */
+  .para{
+    margin:12px 0;
+    font-size:18.2px; line-height:1.75; letter-spacing:.02em;
+    color:var(--ink);
+    /* micro bleed: extremely subtle stacked shadows */
+    text-shadow:
+      0 .018em 0 rgba(0,0,0,.18),
+      0 0 .25px rgba(0,0,0,.18),
+      0 0 .6px rgba(0,0,0,.08);
+  }
   .word{opacity:0; transform:translateY(6px)}
   .word.on{opacity:1; transform:translateY(0); transition:opacity .22s ease, transform .22s ease}
 
-  /* Accent — SVG handwriting */
-  .accent{margin:16px 0 10px}
+  /* Accent — vector handwriting draw */
+  .accent{margin:16px 0 12px}
   svg.handwrite{width:100%; height:64px; display:block}
   .hw-text{
     font-family:"Nothing You Could Do",cursive;
     font-size:28px;
-    fill:transparent;                 /* no fill while stroking */
-    stroke:#0d1322;                   /* dark stroke */
-    stroke-width:1.3;
+    fill:transparent;
+    stroke:#0d1322; stroke-width:1.3;
     stroke-linecap:round; stroke-linejoin:round;
-    stroke-dasharray:2400;            /* long dash to cover all glyph outlines */
-    stroke-dashoffset:2400;
+    stroke-dasharray:2400; stroke-dashoffset:2400;
     filter:drop-shadow(0 1px 0 rgba(255,255,255,.35));
   }
   .hw-text.draw{animation:dash 1400ms ease forwards 200ms}
-  @keyframes dash{to{stroke-dashoffset:0}}
   .hw-text.fill-in{animation:fill 420ms ease forwards 1350ms}
+  @keyframes dash{to{stroke-dashoffset:0}}
   @keyframes fill{to{fill:#0c101b}}
 
   .ink{width:100%; height:12px; margin-top:6px; filter:drop-shadow(0 2px 6px rgba(139,189,255,.25))}
@@ -135,14 +150,18 @@
   .ink.on path{animation:inkdraw 700ms ease 80ms forwards}
   @keyframes inkdraw{to{stroke-dashoffset:0}}
 
-  /* Signature */
-  .sign{display:flex; align-items:center; gap:12px; margin-top:18px; justify-content:flex-end; opacity:0; transform:translateY(8px)}
+  /* Signature row */
+  .sign{
+    display:flex; align-items:center; gap:12px; margin-top:20px; justify-content:flex-end;
+    opacity:0; transform:translateY(8px)
+  }
   .sign.on{opacity:1; transform:translateY(0); transition:opacity .4s ease, transform .4s ease}
-  .signature{width:158px; height:auto; mix-blend-mode:multiply; filter:brightness(1.06) contrast(1.1)}
-  .meta{font-size:13.2px; color:var(--ink); text-align:right}
-  .meta .name{font-size:14.8px; color:var(--ink)}
+  .signature{width:168px; height:auto; mix-blend-mode:multiply; filter:brightness(1.08) contrast(1.12)}
+  .meta{font-size:14px; color:var(--ink); text-align:right}
+  .meta .name{font-size:15.6px; color:var(--ink)}
   .meta .title{color:var(--ink-dim)}
 
+  /* Reduced motion */
   @media (prefers-reduced-motion:reduce){
     .sheet,.sheet::after,.roller::after,.ink path,.word,.hw-text{animation:none !important; transition:none !important}
     .sheet{opacity:1; transform:none}
@@ -158,7 +177,7 @@
   <div class="stage" id="stage">
     <div class="kicker">FROM THE FOUNDER</div>
     <h2 class="title">A note on why Ironhide exists</h2>
-    <svg class="underline" viewBox="0 0 120 10" aria-hidden="true"><path d="M2 7 C45 2, 90 9, 118 5"/></svg>
+    <svg class="underline" viewBox="0 0 132 12" aria-hidden="true"><path d="M2 8 C48 2, 92 10, 130 6"/></svg>
 
     <div class="scroll">
       <div class="roller top" id="rollerTop" aria-hidden="true"></div>
@@ -168,7 +187,6 @@
 
         <p class="para" data-text="I’m not the guy with a dozen degrees or a secret formula. I’m the guy who learned how to make sense of the mess—who sees how systems connect—and who refuses to let businesses settle for flying blind."></p>
 
-        <!-- Accent: vector handwriting (text stroked then filled) -->
         <div class="accent">
           <svg class="handwrite" viewBox="0 0 1200 90" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
             <text x="12" y="54" class="hw-text" id="hwText">
@@ -218,7 +236,6 @@
     const totalWords = lists.reduce((n,l)=> n + l.filter(w=>w.textContent.trim()).length, 0);
     if (!totalWords) return;
     const perWord = Math.max(5, Math.floor(totalDuration / totalWords));
-
     for (const list of lists){
       for (const span of list){
         if (span.textContent.trim()){
@@ -241,21 +258,17 @@
     const signRow = document.getElementById('signRow');
     const hw = document.getElementById('hwText');
 
-    // Unfurl, sweep, roller shimmer
-    sheet.classList.add('unfurl'); sheet.classList.add('sweep');
+    sheet.classList.add('unfurl','sweep');
     rollerTop.classList.add('shimmer'); rollerBot.classList.add('shimmer');
 
-    // Start body writing
     setTimeout(()=>{ revealWords(paras, 3500); }, 200);
 
-    // Vector handwriting: stroke outlines then fill
     setTimeout(()=>{
-      hw.classList.add('draw');     // animate stroke dash
-      hw.classList.add('fill-in');  // fade in fill after stroke
-      ink.classList.add('on');      // underline draw
+      hw.classList.add('draw');     // stroke
+      hw.classList.add('fill-in');  // then fill
+      ink.classList.add('on');      // underline ink
     }, 260);
 
-    // Signature near the end
     setTimeout(()=>{ signRow.classList.add('on'); }, 3200);
   }
 
@@ -264,29 +277,18 @@
       document.getElementById('sheet').classList.add('unfurl','sweep');
       document.getElementById('rollerTop').classList.add('shimmer');
       document.getElementById('rollerBot').classList.add('shimmer');
-
-      const paras = Array.from(document.querySelectorAll('.para'));
-      paras.forEach(p=>{ p.textContent = p.dataset.text || ''; });
+      Array.from(document.querySelectorAll('.para')).forEach(p=>{ p.textContent = p.dataset.text || ''; });
       document.getElementById('hwText').classList.add('draw','fill-in');
       document.getElementById('ink').classList.add('on');
       document.getElementById('signRow').classList.add('on');
       return;
     }
-
-    const target = document.getElementById('stage');
     const io = new IntersectionObserver(entries=>{
-      entries.forEach(e=>{
-        if (e.isIntersecting){
-          runSequence();
-          io.disconnect();
-        }
-      });
-    }, { threshold: 0.25, rootMargin: "0px 0px -10% 0px" });
-    io.observe(target);
+      entries.forEach(e=>{ if (e.isIntersecting){ runSequence(); io.disconnect(); }});
+    }, { threshold: .25, rootMargin: "0px 0px -10% 0px" });
+    io.observe(document.getElementById('stage'));
   }
-
   init();
 </script>
-
 </body>
 </html>
