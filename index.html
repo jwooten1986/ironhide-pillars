@@ -285,7 +285,7 @@
   let i=0, lock=false, paused=false, startTime=0, remaining=DURATION, advanceTimer=null;
 
   /* ---------- Height locker: lock stage to tallest card & post only that --------- */
-const MIN = 520, MAX = 1400, SAFE_PAD = 24; // <- small buffer to prevent clipping
+const MIN = 520, MAX = 1400, SAFE_PAD = 20; // <- small buffer to prevent clipping
 const maxHeights = { sm: MIN, md: MIN, lg: MIN };
 const bp = () => {
   const w = window.innerWidth || 1200;
