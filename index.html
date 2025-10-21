@@ -285,44 +285,66 @@
   let i=0, lock=false, paused=false, startTime=0, remaining=DURATION, advanceTimer=null;
 
   /* ---------- Height locker: lock stage to tallest card & post only that --------- */
-  const MIN = 520, MAX = 1400;
-  const maxHeights = { sm: MIN, md: MIN, lg: MIN };
-  const bp = () => {
-    const w = window.innerWidth || 1200;
-    return (w <= 640) ? 'sm' : (w <= 991) ? 'md' : 'lg';
-  };
-  let lastSent = 0;
+const MIN = 520, MAX = 1400, SAFE_PAD = 24; // <- small buffer to prevent clipping
+const maxHeights = { sm: MIN, md: MIN, lg: MIN };
+const bp = () => {
+  const w = window.innerWidth || 1200;
+  return (w <= 640) ? 'sm' : (w <= 991) ? 'md' : 'lg';
+};
+let lastSent = 0;
 
-  function measureTallest(){
-    let max = 0;
-    // ensure all cards are measurable even though they’re absolutely stacked
-    const restores = [];
-    cards.forEach(card=>{
-      const prev = card.style.visibility;
-      card.style.visibility = 'hidden'; // avoid flicker
-      // force layout
-      const h = Math.ceil(card.getBoundingClientRect().height);
-      max = Math.max(max, h);
-      restores.push(()=>{ card.style.visibility = prev; });
-    });
-    restores.forEach(fn=>fn());
+function postHeight(h){
+  if (h === lastSent) return;
+  lastSent = h;
+  try { window.parent.postMessage({ type:'ihPillarsHeight', height:h }, '*'); } catch(e){}
+}
 
-    const bucket = bp();
-    maxHeights[bucket] = Math.max(maxHeights[bucket], max, MIN);
-    const locked = Math.min(MAX, maxHeights[bucket]);
+/* Measure each card’s NATURAL height at the stage width (ignores absolute/transform) */
+function measureTallest(){
+  // use the actual inner width we render at so wrapping matches
+  const stageWidth = Math.ceil(stage.clientWidth || parseFloat(getComputedStyle(stage).width) || 900);
+  let max = 0;
 
-    stage.style.setProperty('--ihpH', locked + 'px');
-    postHeight(locked);
-  }
+  cards.forEach(card=>{
+    // stash inline styles we’ll touch
+    const prev = {
+      position: card.style.position,
+      inset: card.style.inset,
+      transform: card.style.transform,
+      visibility: card.style.visibility,
+      width: card.style.width,
+      left: card.style.left, right: card.style.right, top: card.style.top, bottom: card.style.bottom
+    };
 
-  function postHeight(h){
-    if (h === lastSent) return;
-    lastSent = h;
-    try{
-      window.parent.postMessage({ type:'ihPillarsHeight', height:h }, '*');
-    }catch(e){}
-  }
-  /* ------------------------------------------------------------------------------- */
+    // Temporarily make it a normal flow element at the same width, hidden
+    card.style.position = 'static';
+    card.style.inset = 'auto';
+    card.style.left = card.style.right = card.style.top = card.style.bottom = 'auto';
+    card.style.transform = 'none';
+    card.style.visibility = 'hidden';
+    card.style.width = stageWidth + 'px';
+
+    // scrollHeight is robust here; fallback to boundingClientRect
+    const h = Math.ceil(card.scrollHeight || card.getBoundingClientRect().height);
+    if (h > max) max = h;
+
+    // restore styles
+    card.style.position = prev.position;
+    card.style.inset = prev.inset;
+    card.style.transform = prev.transform;
+    card.style.visibility = prev.visibility;
+    card.style.width = prev.width;
+    card.style.left = prev.left; card.style.right = prev.right; card.style.top = prev.top; card.style.bottom = prev.bottom;
+  });
+
+  // lock with a small safety pad
+  const bucket = bp();
+  const locked = Math.min(MAX, Math.max(MIN, (max || MIN) + SAFE_PAD));
+  maxHeights[bucket] = Math.max(maxHeights[bucket], locked);
+  stage.style.setProperty('--ihpH', locked + 'px');
+  postHeight(locked);
+}
+/* ------------------------------------------------------------------------------- */
 
   function setPills(idx){
     pills.forEach((p,j)=>{
