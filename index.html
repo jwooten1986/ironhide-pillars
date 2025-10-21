@@ -14,6 +14,7 @@
     --radius:12px;
     --shadow:0 26px 70px rgba(0,0,0,.45);
     --shine: radial-gradient(900px 600px at 110% -10%, rgba(74,163,255,.18), transparent 60%);
+    --ihpH:auto; /* <-- stage height set by JS */
   }
 
   html,body{ margin:0; padding:0; }
@@ -64,17 +65,29 @@
   .timeline{ height:3px; width:min(640px,80vw); margin:10px auto 16px; background:rgba(255,255,255,.12); border-radius:999px; overflow:hidden }
   .bar{ height:100%; width:0%; background:linear-gradient(90deg,rgba(74,163,255,1),rgba(34,197,94,1)); transition:width .2s linear }
 
-  .stage{ display:block; width:100%; margin:0 auto; }
+  /* ------------ STAGE IS HEIGHT-LOCKED; CARDS STACK ABSOLUTELY ------------ */
+  .stage{
+    display:block; width:100%; margin:0 auto;
+    position:relative;
+    height:var(--ihpH);
+    transition:height .18s ease;
+    overflow:hidden;
+  }
   .card{
-    display:none; width:min(var(--cardw),calc(100vw - 48px)); margin:0 auto;
-    border-radius:var(--radius); padding:24px; text-align:left; position:relative;
+    /* stack all cards; do not rely on natural height for layout */
+    position:absolute; inset:0;
+    display:block;
+    width:min(var(--cardw),calc(100vw - 48px)); margin:0 auto;
+    border-radius:var(--radius); padding:24px; text-align:left;
     background:rgba(18,23,40,.94);
     border:1px solid rgba(225,235,255,.16);
-    box-shadow:var(--shadow); opacity:0;
+    box-shadow:var(--shadow);
+    opacity:0; pointer-events:none;
+    transform:translateY(8px) scale(.985);
+    transition:opacity .22s ease, transform .22s ease;
   }
   .card::before{ content:""; position:absolute; inset:0; background:var(--shine); opacity:.7; pointer-events:none }
-  .card.show{ display:block; animation:fadeUp .42s cubic-bezier(.2,.7,0,1) both }
-  @keyframes fadeUp{ from{opacity:0; transform:translateY(8px) scale(.985)} to{opacity:1; transform:translateY(0) scale(1)} }
+  .card.show{ opacity:1; pointer-events:auto; transform:translateY(0) scale(1); }
 
   .grid{ display:grid; gap:16px; grid-template-columns:1.2fr .8fr }
   @media(max-width:900px){ .grid{ grid-template-columns:1fr } }
@@ -123,162 +136,193 @@
     <div class="timeline" aria-hidden="true"><div class="bar" id="ihp-bar"></div></div>
 
     <div class="stage" id="ihp-stage">
-     <!-- Systemize -->
-<article class="card show" data-idx="0">
-  <div class="grid">
-    <div>
-      <span class="badge">Reliable data</span>
-      <h3>Systemize — make your data dependable.</h3>
-      <p>Replace messy spreadsheets and manual reports with one governed source of truth your team can trust.</p>
-      <ul class="list">
-        <li class="li"><span class="dot"></span><span>Data flows automatically — no more copy-pasting or chasing exports.</span></li>
-        <li class="li"><span class="dot"></span><span>Built-in checks catch errors before they reach your dashboards.</span></li>
-        <li class="li"><span class="dot"></span><span>Every metric runs from the same definitions, across every tool.</span></li>
-      </ul>
-      <div class="kpis">
-        <div class="kpi"><b>–80%</b><span class="sub">manual reporting time</span></div>
-        <div class="kpi"><b>99.9%</b><span class="sub">refresh reliability</span></div>
-        <div class="kpi"><b>1</b><span class="sub">single source of truth</span></div>
-      </div>
-   <div class="cta">
-  <a class="btn p"
-     href="https://www.ironhideanalytics.com/services/data-clarity-sprint"
-     target="_blank" rel="noopener">See how a Sprint builds this</a>
-  <a class="btn"
-     href="https://www.ironhideanalytics.com/mini-projects"
-     target="_blank" rel="noopener">Try a Mini-Project</a>
-</div>
-    </div>
-    <div class="col">
-      <h4>Deliverables</h4>
-      <ul>
-        <li>Data model & lineage</li>
-        <li>Automated refresh & alert schedule</li>
-        <li>Quality checks & monitoring</li>
-      </ul>
-      <h4 style="margin-top:10px">Stack</h4>
-      <ul>
-        <li>SQL / BigQuery / Snowflake pipelines</li>
-        <li>dbt or native ELT</li>
-        <li>Airflow / Cloud Scheduler</li>
-      </ul>
-      <h4 style="margin-top:10px">Outcomes</h4>
-      <ul>
-        <li>No manual chasing</li>
-        <li>Auditable refreshes</li>
-      </ul>
-    </div>
-  </div>
-</article>
+      <!-- Systemize -->
+      <article class="card show" data-idx="0">
+        <div class="grid">
+          <div>
+            <span class="badge">Reliable data</span>
+            <h3>Systemize — make your data dependable.</h3>
+            <p>Replace messy spreadsheets and manual reports with one governed source of truth your team can trust.</p>
+            <ul class="list">
+              <li class="li"><span class="dot"></span><span>Data flows automatically — no more copy-pasting or chasing exports.</span></li>
+              <li class="li"><span class="dot"></span><span>Built-in checks catch errors before they reach your dashboards.</span></li>
+              <li class="li"><span class="dot"></span><span>Every metric runs from the same definitions, across every tool.</span></li>
+            </ul>
+            <div class="kpis">
+              <div class="kpi"><b>–80%</b><span class="sub">manual reporting time</span></div>
+              <div class="kpi"><b>99.9%</b><span class="sub">refresh reliability</span></div>
+              <div class="kpi"><b>1</b><span class="sub">single source of truth</span></div>
+            </div>
+            <div class="cta">
+              <a class="btn p" href="https://www.ironhideanalytics.com/services/data-clarity-sprint" target="_blank" rel="noopener">See how a Sprint builds this</a>
+              <a class="btn" href="https://www.ironhideanalytics.com/mini-projects" target="_blank" rel="noopener">Try a Mini-Project</a>
+            </div>
+          </div>
+          <div class="col">
+            <h4>Deliverables</h4>
+            <ul>
+              <li>Data model & lineage</li>
+              <li>Automated refresh & alert schedule</li>
+              <li>Quality checks & monitoring</li>
+            </ul>
+            <h4 style="margin-top:10px">Stack</h4>
+            <ul>
+              <li>SQL / BigQuery / Snowflake pipelines</li>
+              <li>dbt or native ELT</li>
+              <li>Airflow / Cloud Scheduler</li>
+            </ul>
+            <h4 style="margin-top:10px">Outcomes</h4>
+            <ul>
+              <li>No manual chasing</li>
+              <li>Auditable refreshes</li>
+            </ul>
+          </div>
+        </div>
+      </article>
 
-<!-- Visualize -->
-<article class="card" data-idx="1">
-  <div class="grid">
-    <div>
-      <span class="badge">Clarity at a glance</span>
-      <h3>Visualize — make your numbers make sense.</h3>
-      <p>Dashboards that tell the story — at a glance and in real time.</p>
-      <ul class="list">
-        <li class="li"><span class="dot"></span><span>Designed around how your team actually uses data.</span></li>
-        <li class="li"><span class="dot"></span><span>Drill into the “why” behind every KPI — not just the “what.”</span></li>
-        <li class="li"><span class="dot"></span><span>Forecasts, goals, and trends together in one view.</span></li>
-      </ul>
-      <div class="kpis">
-        <div class="kpi"><b>3×</b><span class="sub">dashboard adoption</span></div>
-        <div class="kpi"><b>+18%</b><span class="sub">faster decisions</span></div>
-        <div class="kpi"><b>0</b><span class="sub">guesswork</span></div>
-      </div>
-     <div class="cta">
-  <a class="btn p"
-     href="https://www.ironhideanalytics.com/case-studies/overview"
-     target="_blank" rel="noopener">See examples</a>
-</div>
-    </div>
-    <div class="col">
-      <h4>Deliverables</h4>
-      <ul>
-        <li>Tailored KPI layouts by audience</li>
-        <li>Drill paths & saved views</li>
-        <li>Goal tracking & forecasts</li>
-      </ul>
-      <h4 style="margin-top:10px">Stack</h4>
-      <ul>
-        <li>Power BI / Looker Studio / Tableau</li>
-        <li>Excel/Sheets for light users</li>
-      </ul>
-      <h4 style="margin-top:10px">Outcomes</h4>
-      <ul>
-        <li>Clarity in one screen</li>
-        <li>Fewer “send me that report” Slacks</li>
-      </ul>
-    </div>
-  </div>
-</article>
+      <!-- Visualize -->
+      <article class="card" data-idx="1">
+        <div class="grid">
+          <div>
+            <span class="badge">Clarity at a glance</span>
+            <h3>Visualize — make your numbers make sense.</h3>
+            <p>Dashboards that tell the story — at a glance and in real time.</p>
+            <ul class="list">
+              <li class="li"><span class="dot"></span><span>Designed around how your team actually uses data.</span></li>
+              <li class="li"><span class="dot"></span><span>Drill into the “why” behind every KPI — not just the “what.”</span></li>
+              <li class="li"><span class="dot"></span><span>Forecasts, goals, and trends together in one view.</span></li>
+            </ul>
+            <div class="kpis">
+              <div class="kpi"><b>3×</b><span class="sub">dashboard adoption</span></div>
+              <div class="kpi"><b>+18%</b><span class="sub">faster decisions</span></div>
+              <div class="kpi"><b>0</b><span class="sub">guesswork</span></div>
+            </div>
+            <div class="cta">
+              <a class="btn p" href="https://www.ironhideanalytics.com/case-studies/overview" target="_blank" rel="noopener">See examples</a>
+            </div>
+          </div>
+          <div class="col">
+            <h4>Deliverables</h4>
+            <ul>
+              <li>Tailored KPI layouts by audience</li>
+              <li>Drill paths & saved views</li>
+              <li>Goal tracking & forecasts</li>
+            </ul>
+            <h4 style="margin-top:10px">Stack</h4>
+            <ul>
+              <li>Power BI / Looker Studio / Tableau</li>
+              <li>Excel/Sheets for light users</li>
+            </ul>
+            <h4 style="margin-top:10px">Outcomes</h4>
+            <ul>
+              <li>Clarity in one screen</li>
+              <li>Fewer “send me that report” Slacks</li>
+            </ul>
+          </div>
+        </div>
+      </article>
 
-<!-- Optimize -->
-<article class="card" data-idx="2">
-  <div class="grid">
-    <div>
-      <span class="badge">Close the loop</span>
-      <h3>Optimize — make the work run itself.</h3>
-      <p>Automations & AI that keep reports moving, alerts firing, and teams in sync — even while you sleep.</p>
-      <ul class="list">
-        <li class="li"><span class="dot"></span><span>Reports send themselves to the right people at the right time.</span></li>
-        <li class="li"><span class="dot"></span><span>Get notified before small problems turn into big ones.</span></li>
-        <li class="li"><span class="dot"></span><span>Automate follow-ups and updates across your tools.</span></li>
-      </ul>
-      <div class="kpis">
-        <div class="kpi"><b>–65%</b><span class="sub">ops toil</span></div>
-        <div class="kpi"><b>24/7</b><span class="sub">monitoring</span></div>
-        <div class="kpi"><b>+2–4h</b><span class="sub">saved per analyst/day</span></div>
-      </div>
-    <div class="cta">
-  <a class="btn p"
-     href="https://www.ironhideanalytics.com/resources/automation-playbook"
-     target="_blank" rel="noopener">Automation playbook</a>
-  <a class="btn"
-     href="https://www.ironhideanalytics.com/contact?topic=automation-pilot"
-     target="_blank" rel="noopener">Pilot a workflow</a>
-</div>
-    </div>
-    <div class="col">
-      <h4>Deliverables</h4>
-      <ul>
-        <li>Alert rules & anomaly watch</li>
-        <li>Smart sharing & reminders</li>
-        <li>Automated workflows (Zapier / Power Automate)</li>
-      </ul>
-      <h4 style="margin-top:10px">Stack</h4>
-      <ul>
-        <li>Salesforce / HubSpot hooks</li>
-        <li>Zapier / Power Automate</li>
-      </ul>
-      <h4 style="margin-top:10px">Outcomes</h4>
-      <ul>
-        <li>Proactive ops, fewer fires</li>
-        <li>Actions tied to KPIs</li>
-      </ul>
-    </div>
-  </div>
-</article>
+      <!-- Optimize -->
+      <article class="card" data-idx="2">
+        <div class="grid">
+          <div>
+            <span class="badge">Close the loop</span>
+            <h3>Optimize — make the work run itself.</h3>
+            <p>Automations & AI that keep reports moving, alerts firing, and teams in sync — even while you sleep.</p>
+            <ul class="list">
+              <li class="li"><span class="dot"></span><span>Reports send themselves to the right people at the right time.</span></li>
+              <li class="li"><span class="dot"></span><span>Get notified before small problems turn into big ones.</span></li>
+              <li class="li"><span class="dot"></span><span>Automate follow-ups and updates across your tools.</span></li>
+            </ul>
+            <div class="kpis">
+              <div class="kpi"><b>–65%</b><span class="sub">ops toil</span></div>
+              <div class="kpi"><b>24/7</b><span class="sub">monitoring</span></div>
+              <div class="kpi"><b>+2–4h</b><span class="sub">saved per analyst/day</span></div>
+            </div>
+            <div class="cta">
+              <a class="btn p" href="https://www.ironhideanalytics.com/resources/automation-playbook" target="_blank" rel="noopener">Automation playbook</a>
+              <a class="btn" href="https://www.ironhideanalytics.com/contact?topic=automation-pilot" target="_blank" rel="noopener">Pilot a workflow</a>
+            </div>
+          </div>
+          <div class="col">
+            <h4>Deliverables</h4>
+            <ul>
+              <li>Alert rules & anomaly watch</li>
+              <li>Smart sharing & reminders</li>
+              <li>Automated workflows (Zapier / Power Automate)</li>
+            </ul>
+            <h4 style="margin-top:10px">Stack</h4>
+            <ul>
+              <li>Salesforce / HubSpot hooks</li>
+              <li>Zapier / Power Automate</li>
+            </ul>
+            <h4 style="margin-top:10px">Outcomes</h4>
+            <ul>
+              <li>Proactive ops, fewer fires</li>
+              <li>Actions tied to KPIs</li>
+            </ul>
+          </div>
+        </div>
+      </article>
     </div>
   </div>
 
 <script>
 (function(){
-  const root = document.getElementById('ihp-root');
+  const root  = document.getElementById('ihp-root');
+  const stage = document.getElementById('ihp-stage');
 
   const pills=[...root.querySelectorAll('.pill')];
   const cards=[...root.querySelectorAll('.card')];
   const prev=root.querySelector('#ihp-prev');
   const next=root.querySelector('#ihp-next');
-  const bar=root.querySelector('#ihp-bar');
+  const bar =root.querySelector('#ihp-bar');
   const pauseBtn=root.querySelector('#ihp-pauseBtn');
 
   const AUTOPLAY=true;
   const DURATION=12000;
 
   let i=0, lock=false, paused=false, startTime=0, remaining=DURATION, advanceTimer=null;
+
+  /* ---------- Height locker: lock stage to tallest card & post only that --------- */
+  const MIN = 520, MAX = 1400;
+  const maxHeights = { sm: MIN, md: MIN, lg: MIN };
+  const bp = () => {
+    const w = window.innerWidth || 1200;
+    return (w <= 640) ? 'sm' : (w <= 991) ? 'md' : 'lg';
+  };
+  let lastSent = 0;
+
+  function measureTallest(){
+    let max = 0;
+    // ensure all cards are measurable even though they’re absolutely stacked
+    const restores = [];
+    cards.forEach(card=>{
+      const prev = card.style.visibility;
+      card.style.visibility = 'hidden'; // avoid flicker
+      // force layout
+      const h = Math.ceil(card.getBoundingClientRect().height);
+      max = Math.max(max, h);
+      restores.push(()=>{ card.style.visibility = prev; });
+    });
+    restores.forEach(fn=>fn());
+
+    const bucket = bp();
+    maxHeights[bucket] = Math.max(maxHeights[bucket], max, MIN);
+    const locked = Math.min(MAX, maxHeights[bucket]);
+
+    stage.style.setProperty('--ihpH', locked + 'px');
+    postHeight(locked);
+  }
+
+  function postHeight(h){
+    if (h === lastSent) return;
+    lastSent = h;
+    try{
+      window.parent.postMessage({ type:'ihPillarsHeight', height:h }, '*');
+    }catch(e){}
+  }
+  /* ------------------------------------------------------------------------------- */
 
   function setPills(idx){
     pills.forEach((p,j)=>{
@@ -301,8 +345,8 @@
     remaining=DURATION;
     if(AUTOPLAY && !paused) startCycle(DURATION);
 
-    postHeight();
-    setTimeout(()=>{lock=false;},420);
+    // no layout shift: stage height is already locked
+    setTimeout(()=>{lock=false;}, 260);
   }
   function go(n){ show(n); }
 
@@ -351,25 +395,33 @@
     advanceTimer=setTimeout(()=>{ show(i+1); }, ms);
   }
 
-  function visibleHeight(){
-    const r = root.getBoundingClientRect();
-    return Math.ceil(r.height) + 2;
-  }
-  function postHeight(){
-    try{ window.parent.postMessage({ type:'ihPillarsHeight', height: visibleHeight() }, '*'); }catch(e){}
-  }
-  new ResizeObserver(postHeight).observe(root);
-  if (document.readyState === 'complete') postHeight(); else window.addEventListener('load', postHeight);
-  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(postHeight).catch(()=>{}); }
-  let t; window.addEventListener('resize', ()=>{ clearTimeout(t); t=setTimeout(postHeight,120); });
+  // Recompute locked height on load, fonts, and resize
+  if (document.fonts && document.fonts.ready){ document.fonts.ready.then(measureTallest); }
+  window.addEventListener('load', measureTallest, { once:true });
+
+  let rT=null;
+  window.addEventListener('resize', ()=>{
+    clearTimeout(rT);
+    rT = setTimeout(()=>{
+      // apply remembered height for this breakpoint immediately, then remeasure
+      const locked = Math.min(MAX, Math.max(MIN, maxHeights[bp()]));
+      stage.style.setProperty('--ihpH', locked + 'px');
+      postHeight(locked);
+      measureTallest();
+    }, 120);
+  });
+
+  // If anything inside cards changes size later
+  const ro = new ResizeObserver(()=>measureTallest());
+  cards.forEach(c=>ro.observe(c));
 
   requestAnimationFrame(()=>{
     cards.forEach((c,idx)=>c.classList.toggle('show', idx===0));
     setPills(0);
+    measureTallest();        // lock height before we start
     if(AUTOPLAY) startCycle(DURATION);
-    postHeight();
 
-       // 👇 ADD THIS LINE BELOW 👇
+    // ensure links break out of iframe
     document.querySelectorAll('.cta a').forEach(a => a.setAttribute('target', '_top'));
   });
 })();
