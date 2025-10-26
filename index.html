@@ -153,8 +153,8 @@
               <div class="kpi"><b>1</b><span class="sub">single source of truth</span></div>
             </div>
             <div class="cta">
-              <a class="btn p" href="https://www.ironhideanalytics.com/services/data-clarity-sprint" target="_top" rel="noopener">See how a Sprint builds this</a>
-              <a class="btn" href="https://www.ironhideanalytics.com/mini-projects" target="_top" rel="noopener">Try a Mini-Project</a>
+               <a href="/services/data-clarity-sprint" class="ih-btn" data-fixlink>See how a Sprint builds this</a>
+               <a href="/mini-projects" class="ih-btn" data-fixlink>Try a Mini-Project</a>
             </div>
           </div>
           <div class="col">
@@ -197,7 +197,7 @@
               <div class="kpi"><b>0</b><span class="sub">guesswork</span></div>
             </div>
             <div class="cta">
-              <a class="btn p" href="https://www.ironhideanalytics.com/case-studies/overview" target="_top" rel="noopener">See examples</a>
+             <a href="/case-studies/overview" class="ih-btn" data-fixlink>See examples</a>
             </div>
           </div>
           <div class="col">
@@ -437,6 +437,20 @@
     document.querySelectorAll('.cta a').forEach(a => a.setAttribute('target', '_top'));
   });
 })();
+</script>
+  <script>
+/* Fix internal links when previewing on GitHub */
+document.querySelectorAll('[data-fixlink]').forEach(link => {
+  if (location.hostname.includes('github.io') || location.hostname.includes('localhost')) {
+    const map = {
+      '/services/data-clarity-sprint': 'https://www.ironhideanalytics.com/services/data-clarity-sprint',
+      '/mini-projects': 'https://www.ironhideanalytics.com/mini-projects',
+      '/case-studies/overview': 'https://www.ironhideanalytics.com/case-studies/overview'
+    };
+    const newHref = map[link.getAttribute('href')];
+    if (newHref) link.setAttribute('href', newHref);
+  }
+});
 </script>
 </body>
 </html>
